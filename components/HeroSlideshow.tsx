@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useRef } from "react";
 
 const slides = [
   { src: "/images/image1.jpg", alt: "Vercel Prestige – Limousine de prestige" },
@@ -10,56 +10,58 @@ const slides = [
 ];
 
 const INTERVAL = 4000;
-const TRANSITION_MS = 1200;
 
 export default function HeroSlideshow() {
-  const [current, setCurrent] = useState(0);
-  const [isTransitioning, setIsTransitioning] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [kenBurnsKey, setKenBurnsKey] = useState(0);
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
-  const goNext = useCallback(() => {
-    setIsTransitioning(true);
-    setTimeout(() => {
-      setCurrent((prev) => (prev + 1) % slides.length);
-      setIsTransitioning(false);
-    }, TRANSITION_MS);
-  }, []);
+  const startTimer = () => {
+    if (timerRef.current) clearInterval(timerRef.current);
+    timerRef.current = setInterval(() => {
+      setActiveIndex((prev) => (prev + 1) % slides.length);
+      setKenBurnsKey((prev) => prev + 1);
+    }, INTERVAL);
+  };
 
   useEffect(() => {
-    const timer = setInterval(goNext, INTERVAL);
-    return () => clearInterval(timer);
-  }, [goNext]);
+    startTimer();
+    return () => {
+      if (timerRef.current) clearInterval(timerRef.current);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const goTo = (idx: number) => {
+    setActiveIndex(idx);
+    setKenBurnsKey((prev) => prev + 1);
+    startTimer();
+  };
 
   return (
-    <div className="relative h-full w-full overflow-hidden rounded-2xl">
-      {slides.map((slide, idx) => {
-        const isActive = idx === current;
-        const isPrev = idx === (current - 1 + slides.length) % slides.length;
-        const show = isActive || (isPrev && isTransitioning);
-
-        return (
-          <div
-            key={slide.src}
-            className="absolute inset-0"
-            style={{
-              opacity: isActive && !isTransitioning ? 1 : isActive && isTransitioning ? 0 : isPrev && isTransitioning ? 1 : 0,
-              transition: `opacity ${TRANSITION_MS}ms ease-in-out`,
-              zIndex: isActive ? 2 : isPrev && isTransitioning ? 1 : 0,
-            }}
-          >
-            {(show || isActive) && (
-              <Image
-                src={slide.src}
-                alt={slide.alt}
-                fill
-                sizes="(max-width: 1024px) 100vw, 50vw"
-                quality={90}
-                className={`object-cover ${isActive ? "ken-burns-active" : ""}`}
-                priority={idx === 0}
-              />
-            )}
-          </div>
-        );
-      })}
+    <div className="relative h-full w-full overflow-hidden rounded-2xl bg-black">
+      {/* All images stacked, opacity controls visibility */}
+      {slides.map((slide, idx) => (
+        <div
+          key={slide.src}
+          className="absolute inset-0 transition-opacity duration-1000 ease-in-out"
+          style={{
+            opacity: idx === activeIndex ? 1 : 0,
+            zIndex: idx === activeIndex ? 1 : 0,
+          }}
+        >
+          <Image
+            key={idx === activeIndex ? `kb-${kenBurnsKey}` : `static-${idx}`}
+            src={slide.src}
+            alt={slide.alt}
+            fill
+            sizes="(max-width: 1024px) 100vw, 50vw"
+            quality={90}
+            className={`object-cover ${idx === activeIndex ? "ken-burns-active" : ""}`}
+            priority={idx === 0}
+          />
+        </div>
+      ))}
 
       {/* Gradient overlay */}
       <div className="absolute inset-0 z-10 bg-gradient-to-t from-black via-black/20 to-transparent" />
@@ -80,9 +82,9 @@ export default function HeroSlideshow() {
           <button
             key={idx}
             type="button"
-            onClick={() => { setCurrent(idx); setIsTransitioning(false); }}
+            onClick={() => goTo(idx)}
             className={`h-1 rounded-full transition-all duration-300 ${
-              idx === current ? "w-6 bg-[var(--gold)]" : "w-1.5 bg-white/30"
+              idx === activeIndex ? "w-6 bg-[var(--gold)]" : "w-1.5 bg-white/30"
             }`}
             aria-label={`Image ${idx + 1}`}
           />
