@@ -10,17 +10,17 @@ export const pricing = [
     description: "Une dernière fête inoubliable.",
   },
   {
-    title: "Anniversaire / Soirée",
+    title: "Anniversaire / soirée privée",
     priceRange: "250–500€",
     description: "Célébrez avec style et luxe.",
   },
   {
-    title: "Cérémonie Familiale",
+    title: "Cérémonies familiales",
     priceRange: "350–700€",
     description: "Baptême, communion, événements.",
   },
   {
-    title: "Forfait Soirée (3–4h)",
+    title: "Soirée 3–4h",
     priceRange: "600–1 000€",
     description: "Transport VIP toute la soirée.",
   },

@@ -35,4 +35,11 @@ export const pickupPoints: PickupPoint[] = [
     mapsUrl: "https://www.google.com/maps/search/?api=1&query=Eglise+Vercel",
     instruction: "Arrêt minute face au parvis.",
   },
+  {
+    id: "valdahon-gare",
+    name: "Gare de Valdahon",
+    address: "Avenue de la Gare, 25800 Valdahon",
+    mapsUrl: "https://www.google.com/maps/search/?api=1&query=Gare+de+Valdahon",
+    instruction: "Prise en charge près de la zone taxi.",
+  },
 ];

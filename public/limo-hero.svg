@@ -1,0 +1,53 @@
+<svg width="1600" height="900" viewBox="0 0 1600 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1600" y2="900" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#03071E"/>
+      <stop offset="1" stop-color="#370617"/>
+    </linearGradient>
+    <radialGradient id="glowA" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(1240 180) rotate(90) scale(280 360)">
+      <stop stop-color="#FFBA08" stop-opacity="0.28"/>
+      <stop offset="1" stop-color="#FFBA08" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glowB" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(280 760) rotate(90) scale(260 440)">
+      <stop stop-color="#F48C06" stop-opacity="0.24"/>
+      <stop offset="1" stop-color="#F48C06" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="carBody" x1="240" y1="570" x2="1320" y2="570" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0F1739"/>
+      <stop offset="0.45" stop-color="#1A244F"/>
+      <stop offset="1" stop-color="#0A112D"/>
+    </linearGradient>
+    <linearGradient id="carReflect" x1="352" y1="486" x2="1210" y2="486" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFFFFF" stop-opacity="0.02"/>
+      <stop offset="0.5" stop-color="#FFFFFF" stop-opacity="0.24"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0.05"/>
+    </linearGradient>
+    <filter id="shadow" x="170" y="430" width="1260" height="300" filterUnits="userSpaceOnUse">
+      <feGaussianBlur stdDeviation="28"/>
+    </filter>
+  </defs>
+
+  <rect width="1600" height="900" fill="url(#bg)"/>
+  <rect width="1600" height="900" fill="url(#glowA)"/>
+  <rect width="1600" height="900" fill="url(#glowB)"/>
+
+  <g filter="url(#shadow)">
+    <ellipse cx="820" cy="666" rx="430" ry="38" fill="#000000" fill-opacity="0.6"/>
+  </g>
+
+  <path d="M280 578C280 578 386 524 478 494C570 464 698 446 810 446C922 446 1052 464 1134 500C1216 536 1294 578 1294 578L1272 626H306L280 578Z" fill="url(#carBody)"/>
+  <path d="M446 496C536 468 650 454 802 454C932 454 1054 472 1134 504L1088 548H500L446 496Z" fill="#141D46"/>
+  <path d="M500 548H1088L1032 488C956 468 884 458 806 458C708 458 612 470 556 486L500 548Z" fill="url(#carReflect)"/>
+
+  <rect x="364" y="600" width="848" height="12" rx="6" fill="#0B1331"/>
+  <rect x="1240" y="578" width="52" height="20" rx="10" fill="#F48C06"/>
+  <rect x="274" y="578" width="60" height="20" rx="10" fill="#F48C06"/>
+
+  <circle cx="486" cy="620" r="66" fill="#0A1029"/>
+  <circle cx="486" cy="620" r="36" fill="#202D62"/>
+  <circle cx="1100" cy="620" r="66" fill="#0A1029"/>
+  <circle cx="1100" cy="620" r="36" fill="#202D62"/>
+
+  <path d="M624 486H958" stroke="#FFBA08" stroke-opacity="0.45" stroke-width="2"/>
+  <path d="M564 522H1030" stroke="#FFBA08" stroke-opacity="0.24" stroke-width="2"/>
+</svg>
