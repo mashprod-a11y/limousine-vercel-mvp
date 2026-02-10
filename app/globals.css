@@ -195,14 +195,14 @@ details[open] .faq-arrow {
   transform: rotate(180deg);
 }
 
-/* ================ HERO FLOAT ANIMATION ================ */
-@keyframes heroFloat {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-12px); }
+/* ================ KEN BURNS SLIDESHOW ================ */
+@keyframes kenBurns {
+  0% { transform: scale(1) translate(0, 0); }
+  100% { transform: scale(1.12) translate(-1.5%, -1%); }
 }
 
-.hero-float {
-  animation: heroFloat 5s ease-in-out infinite;
+.ken-burns-active {
+  animation: kenBurns 8s ease-out forwards;
 }
 
 @keyframes shimmer {

@@ -7,6 +7,7 @@ import InteractiveOffers from "@/components/InteractiveOffers";
 import PricingCards from "@/components/PricingCards";
 import ChauffeurToggle from "@/components/ChauffeurToggle";
 import EntrepriseSection from "@/components/EntrepriseSection";
+import HeroSlideshow from "@/components/HeroSlideshow";
 import { content } from "@/data/content";
 import { pickupPoints } from "@/data/pickupPoints";
 import {
@@ -177,26 +178,10 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Hero image */}
+          {/* Hero slideshow with Ken Burns */}
           <div className="relative" data-reveal="right">
-            <div className="hero-float surface-card relative h-[420px] overflow-hidden rounded-2xl sm:h-[500px]">
-              <Image
-                src="/images/image1.jpg"
-                alt="Vercel Prestige – Limousine de prestige"
-                fill
-                sizes="(max-width: 1024px) 100vw, 600px"
-                className="object-cover"
-                priority
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent" />
-              <div className="absolute bottom-0 left-0 right-0 p-6">
-                <p className="text-xs font-semibold uppercase tracking-wider text-[var(--gold)]">
-                  Rue du Château, Vercel
-                </p>
-                <p className="mt-1 text-xl font-bold text-white">
-                  Élégance et confort
-                </p>
-              </div>
+            <div className="surface-card relative h-[420px] overflow-hidden rounded-2xl sm:h-[500px]">
+              <HeroSlideshow />
             </div>
             <div className="absolute -inset-4 -z-10 rounded-3xl bg-[var(--gold)]/5 blur-2xl" />
           </div>
@@ -247,7 +232,8 @@ export default function Home() {
                 src="/images/image2.jpg"
                 alt="Vercel Prestige – Nos implantations"
                 fill
-                sizes="(max-width: 1024px) 100vw, 600px"
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                quality={90}
                 className="object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
@@ -332,6 +318,7 @@ export default function Home() {
             alt="Vercel Prestige – Expérience premium"
             fill
             sizes="100vw"
+            quality={90}
             className="object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/30 to-transparent" />
