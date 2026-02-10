@@ -103,7 +103,17 @@ export default function ChauffeurToggle() {
           : "border-[var(--glass-border)] bg-white/3"
       }`}>
         <p className="text-sm font-semibold">
-          {mode === "avec" ? "✓ Recommandé" : "⚠ Conditions spécifiques"}
+          {mode === "avec" ? (
+            <span className="flex items-center gap-1.5">
+              <svg className="h-4 w-4 text-[var(--gold)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
+              Recommandé
+            </span>
+          ) : (
+            <span className="flex items-center gap-1.5">
+              <svg className="h-4 w-4 text-[var(--gold)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z" /></svg>
+              Conditions spécifiques
+            </span>
+          )}
         </p>
         <p className="mt-1 text-sm text-[var(--text-muted)]">
           {mode === "avec"

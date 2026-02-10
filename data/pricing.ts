@@ -4,7 +4,7 @@ export interface PrestationPricing {
   price: number;
   description: string;
   includes: string[];
-  icon: string;
+  iconName: string;
 }
 
 export const prestationPricing: PrestationPricing[] = [
@@ -19,7 +19,7 @@ export const prestationPricing: PrestationPricing[] = [
       "Itinéraire personnalisé",
       "Arrivée et départ cérémonie",
     ],
-    icon: "💍",
+    iconName: "ring",
   },
   {
     id: "evg_evjf",
@@ -32,7 +32,7 @@ export const prestationPricing: PrestationPricing[] = [
       "Capacité groupe",
       "Chauffeur dédié",
     ],
-    icon: "🎉",
+    iconName: "party",
   },
   {
     id: "anniversaire_soiree",
@@ -45,7 +45,7 @@ export const prestationPricing: PrestationPricing[] = [
       "Discrétion assurée",
       "Horaires flexibles",
     ],
-    icon: "🎂",
+    iconName: "cake",
   },
   {
     id: "ceremonie_familiale",
@@ -58,7 +58,7 @@ export const prestationPricing: PrestationPricing[] = [
       "Service personnalisé",
       "Décoration possible",
     ],
-    icon: "🏛",
+    iconName: "temple",
   },
   {
     id: "soiree_3_4h",
@@ -71,7 +71,7 @@ export const prestationPricing: PrestationPricing[] = [
       "Itinéraire flexible",
       "Ambiance sonore",
     ],
-    icon: "🌙",
+    iconName: "moon",
   },
   {
     id: "sur_mesure",
@@ -84,12 +84,49 @@ export const prestationPricing: PrestationPricing[] = [
       "Options personnalisables",
       "Contact dédié",
     ],
-    icon: "✨",
+    iconName: "sparkles",
   },
 ];
 
+/** Prestation spéciale Entreprises / Corporate */
+export interface EntreprisePricing {
+  id: string;
+  title: string;
+  priceFrom: number;
+  description: string;
+  examples: string[];
+  includes: string[];
+  iconName: string;
+}
+
+export const entreprisePricing: EntreprisePricing = {
+  id: "entreprise",
+  title: "Offre Entreprises",
+  priceFrom: 500,
+  description:
+    "Une offre dédiée aux professionnels, entièrement personnalisable selon vos besoins corporate.",
+  examples: [
+    "Fête d'entreprise",
+    "Soirée de fin d'année",
+    "Séminaire",
+    "Team building",
+    "Transport clients VIP",
+    "Lancement de produit",
+  ],
+  includes: [
+    "Devis personnalisé",
+    "Facturation entreprise",
+    "Chauffeur en costume",
+    "Flotte adaptée au groupe",
+    "Coordination événementielle",
+    "Contact dédié",
+  ],
+  iconName: "building",
+};
+
 /** Retourne le prix d'une prestation par son id */
 export function getPrestationPrice(id: string): number {
+  if (id === "entreprise") return entreprisePricing.priceFrom;
   return prestationPricing.find((p) => p.id === id)?.price ?? 500;
 }
 

@@ -5,8 +5,8 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Location Limousine Vercel-Villedieu-le-Camp",
-  description: "Location de limousine et voiture de prestige avec ou sans chauffeur à Vercel-Villedieu-le-Camp.",
+  title: "Vercel Prestige – Location Limousine & Véhicules de Prestige",
+  description: "L'art du transport de prestige. Location de limousine et véhicules haut de gamme avec ou sans chauffeur à Vercel-Villedieu-le-Camp.",
 };
 
 export default function RootLayout({

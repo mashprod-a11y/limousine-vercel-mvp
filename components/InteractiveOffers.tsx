@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { prestationPricing } from "@/data/pricing";
+import PrestationIcon from "@/components/PrestationIcon";
 
 export default function InteractiveOffers() {
   const [selectedIdx, setSelectedIdx] = useState<number | null>(null);
@@ -31,13 +32,11 @@ export default function InteractiveOffers() {
           >
             <div className="flex items-start justify-between">
               <span
-                className={`flex h-11 w-11 items-center justify-center rounded-xl text-xl transition-colors duration-300 ${
-                  isSelected
-                    ? "bg-[var(--gold)]/15"
-                    : "bg-white/5"
+                className={`flex h-11 w-11 items-center justify-center rounded-xl transition-colors duration-300 ${
+                  isSelected ? "bg-[var(--gold)]/15 text-[var(--gold)]" : "bg-white/5 text-[var(--text-muted)]"
                 }`}
               >
-                {offer.icon}
+                <PrestationIcon name={offer.iconName} className="h-5 w-5" />
               </span>
               <span className={`text-lg font-bold transition-colors duration-300 ${isSelected ? "text-[var(--gold)]" : "text-white"}`}>
                 {offer.price} €
@@ -49,7 +48,6 @@ export default function InteractiveOffers() {
             </h3>
             <p className="mt-1 text-sm text-[var(--text-muted)]">{offer.description}</p>
 
-            {/* Expanded content */}
             <div
               className={`grid transition-all duration-500 ease-out ${
                 isSelected ? "mt-4 grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"

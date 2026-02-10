@@ -6,8 +6,18 @@ import ScrollReveal from "@/components/ScrollReveal";
 import InteractiveOffers from "@/components/InteractiveOffers";
 import PricingCards from "@/components/PricingCards";
 import ChauffeurToggle from "@/components/ChauffeurToggle";
+import EntrepriseSection from "@/components/EntrepriseSection";
 import { content } from "@/data/content";
 import { pickupPoints } from "@/data/pickupPoints";
+import {
+  IconMapPin,
+  IconCar,
+  IconZap,
+  IconDiamond,
+  IconPhone,
+  IconMessageCircle,
+  IconShield,
+} from "@/components/Icons";
 
 const PickupMap = dynamic(() => import("@/components/PickupMap"), {
   ssr: false,
@@ -66,27 +76,42 @@ export default function Home() {
       {/* ==================== HEADER ==================== */}
       <header className="sticky top-0 z-50 border-b border-[var(--glass-border)] bg-black/80 backdrop-blur-xl">
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-          <Link href="/" className="text-base font-bold tracking-wide text-[var(--gold)] sm:text-lg">
-            {content.siteName}
+          <Link href="/" className="text-base font-bold uppercase tracking-widest text-[var(--gold)] sm:text-lg">
+            Vercel Prestige
           </Link>
 
-          <nav className="hidden items-center gap-6 text-sm text-[var(--text-muted)] md:flex">
-            <a href="#offres" className="hover:text-[var(--gold)] transition-colors">Prestations</a>
-            <a href="#tarifs" className="hover:text-[var(--gold)] transition-colors">Tarifs</a>
-            <a href="#rdv" className="hover:text-[var(--gold)] transition-colors">Points RDV</a>
-            <a href="#reservation" className="hover:text-[var(--gold)] transition-colors">Réserver</a>
+          <nav className="hidden items-center gap-1 md:flex">
+            {[
+              { href: "#offres", label: "Prestations" },
+              { href: "#tarifs", label: "Tarifs" },
+              { href: "#entreprise", label: "Entreprises" },
+              { href: "#rdv", label: "Nos lieux" },
+            ].map((link) => (
+              <a
+                key={link.href}
+                href={link.href}
+                className="rounded-full px-4 py-2 text-sm text-[var(--text-muted)] transition-all duration-200 hover:bg-white/5 hover:text-white"
+              >
+                {link.label}
+              </a>
+            ))}
           </nav>
 
           <div className="flex items-center gap-2 sm:gap-3">
-            <a href={`tel:${content.phone}`} className="hidden text-sm link-gold sm:inline">
+            <a
+              href={`tel:${content.phone}`}
+              className="hidden items-center gap-1.5 rounded-full border border-[var(--glass-border)] bg-white/[0.03] px-3.5 py-2 text-sm text-[var(--text-muted)] transition hover:border-[var(--gold)]/30 hover:text-white sm:inline-flex"
+            >
+              <IconPhone className="h-3.5 w-3.5" />
               Appeler
             </a>
             <a
               href={content.whatsappUrl}
               target="_blank"
               rel="noreferrer"
-              className="hidden rounded-full border border-[var(--gold)]/25 bg-[var(--gold)]/5 px-3 py-1 text-sm text-[var(--gold)] sm:inline hover:bg-[var(--gold)]/10 transition"
+              className="hidden items-center gap-1.5 rounded-full border border-[var(--glass-border)] bg-white/[0.03] px-3.5 py-2 text-sm text-[var(--text-muted)] transition hover:border-[var(--gold)]/30 hover:text-white sm:inline-flex"
             >
+              <IconMessageCircle className="h-3.5 w-3.5" />
               WhatsApp
             </a>
             <a href="#reservation" className="btn-primary rounded-full px-5 py-2 text-sm font-semibold transition">
@@ -97,7 +122,7 @@ export default function Home() {
       </header>
 
       {/* ==================== HERO ==================== */}
-      <section className="relative overflow-hidden pt-8 pb-16 sm:pt-12 sm:pb-20">
+      <section className="relative overflow-hidden pt-10 pb-16 sm:pt-16 sm:pb-24">
         {/* Animated background orbs */}
         <div className="absolute -left-40 top-10 h-96 w-96 rounded-full bg-[var(--brown-red)]/8 blur-[160px] pulse-glow" />
         <div className="absolute right-[-10%] top-[-5%] h-[500px] w-[500px] rounded-full bg-[var(--dark-wine)]/10 blur-[180px] pulse-glow" style={{ animationDelay: "2s" }} />
@@ -105,19 +130,24 @@ export default function Home() {
 
         <div className="relative mx-auto grid max-w-7xl gap-8 px-4 sm:px-6 lg:grid-cols-2 lg:gap-12 lg:px-8">
           <div className="flex flex-col justify-center" data-reveal="left">
-            <span className="mb-5 inline-flex w-fit rounded-full border border-[var(--gold)]/20 bg-[var(--gold)]/5 px-4 py-1.5 text-sm tracking-wide text-[var(--gold)]">
-              📍 Vercel-Villedieu-le-Camp
+            <span className="mb-5 inline-flex w-fit items-center gap-1.5 rounded-full border border-[var(--gold)]/20 bg-[var(--gold)]/5 px-4 py-1.5 text-sm tracking-wide text-[var(--gold)]">
+              <IconMapPin className="h-3.5 w-3.5" />
+              Vercel-Villedieu-le-Camp
             </span>
 
-            <h1 className="text-balance text-4xl font-extrabold leading-[1.06] tracking-tight sm:text-5xl md:text-6xl">
-              Location de
+            <h1 className="text-balance text-4xl font-extrabold uppercase leading-[1.06] tracking-tight sm:text-5xl md:text-6xl">
+              Vercel
               <br />
-              <span className="shimmer-text">limousine de prestige</span>
+              <span className="shimmer-text">Prestige</span>
             </h1>
 
-            <p className="mt-6 max-w-lg text-lg leading-relaxed text-[var(--text-muted)]">
-              Service haut de gamme à Vercel-Villedieu-le-Camp et ses alentours.
-              Avec ou sans chauffeur, pour tous vos événements.
+            <p className="mt-4 text-lg font-light italic text-[var(--gold)]">
+              {content.tagline}
+            </p>
+
+            <p className="mt-4 max-w-lg text-base leading-relaxed text-[var(--text-muted)]">
+              Transport en limousine et location de véhicules haut de gamme,
+              avec ou sans chauffeur, pour une expérience exclusive et personnalisée.
             </p>
 
             <ul className="mt-6 space-y-2.5">
@@ -147,12 +177,12 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Hero image with float animation */}
+          {/* Hero image */}
           <div className="relative" data-reveal="right">
             <div className="hero-float surface-card relative h-[420px] overflow-hidden rounded-2xl sm:h-[500px]">
               <Image
-                src="https://images.pexels.com/photos/9151813/pexels-photo-9151813.jpeg"
-                alt="Limousine de prestige à Vercel-Villedieu-le-Camp"
+                src="/images/image1.jpg"
+                alt="Vercel Prestige – Limousine de prestige"
                 fill
                 sizes="(max-width: 1024px) 100vw, 600px"
                 className="object-cover"
@@ -161,14 +191,13 @@ export default function Home() {
               <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent" />
               <div className="absolute bottom-0 left-0 right-0 p-6">
                 <p className="text-xs font-semibold uppercase tracking-wider text-[var(--gold)]">
-                  Vercel-Villedieu-le-Camp
+                  Rue du Château, Vercel
                 </p>
                 <p className="mt-1 text-xl font-bold text-white">
                   Élégance et confort
                 </p>
               </div>
             </div>
-            {/* Decorative glow behind card */}
             <div className="absolute -inset-4 -z-10 rounded-3xl bg-[var(--gold)]/5 blur-2xl" />
           </div>
         </div>
@@ -178,21 +207,57 @@ export default function Home() {
       <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8" data-reveal="up">
         <div className="surface-card grid gap-4 rounded-2xl p-5 sm:grid-cols-4 text-center">
           {[
-            { icon: "📍", label: "Vercel-Villedieu-le-Camp et alentours" },
-            { icon: "🚗", label: "Avec ou sans chauffeur" },
-            { icon: "⚡", label: "Confirmation rapide" },
-            { icon: "💎", label: "Service haut de gamme" },
+            { Icon: IconMapPin, label: "Vercel-Villedieu-le-Camp et alentours" },
+            { Icon: IconCar, label: "Avec ou sans chauffeur" },
+            { Icon: IconZap, label: "Confirmation rapide" },
+            { Icon: IconDiamond, label: "Service haut de gamme" },
           ].map((item) => (
             <div key={item.label} className="flex flex-col items-center gap-2 py-2">
-              <span className="text-xl">{item.icon}</span>
+              <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[var(--gold)]/10 text-[var(--gold)]">
+                <item.Icon className="h-4.5 w-4.5" />
+              </span>
               <p className="text-xs text-[var(--text-muted)]">{item.label}</p>
             </div>
           ))}
         </div>
       </section>
 
+      {/* ==================== ABOUT / IMPLANTATIONS ==================== */}
+      <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
+        <div className="grid gap-10 lg:grid-cols-2 lg:gap-16">
+          <div data-reveal="left">
+            <p className="text-xs font-semibold uppercase tracking-widest text-[var(--gold)]">Notre histoire</p>
+            <h2 className="mt-3 text-3xl font-extrabold sm:text-4xl">Vercel Prestige</h2>
+            <p className="mt-4 text-base leading-relaxed text-[var(--text-muted)]">
+              Implantée dans un site stratégique et élégant, Rue du Château,
+              en plein c&oelig;ur de la place principale de Vercel, face à l'église Sainte-Agathe,
+              Vercel Prestige déploie son savoir-faire dans toute la région,
+              en partenariat avec des lieux emblématiques et des pôles événementiels sélectionnés.
+            </p>
+            <p className="mt-6 text-sm italic text-[var(--gold)]">
+              Quand chaque déplacement devient une signature.
+            </p>
+            <p className="mt-2 text-sm text-[var(--text-muted)]">{content.founders}</p>
+          </div>
+
+          {/* Image 2 placement */}
+          <div className="relative" data-reveal="right">
+            <div className="surface-card relative h-[350px] overflow-hidden rounded-2xl sm:h-[400px]">
+              <Image
+                src="/images/image2.jpg"
+                alt="Vercel Prestige – Nos implantations"
+                fill
+                sizes="(max-width: 1024px) 100vw, 600px"
+                className="object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ==================== PRESTATIONS ==================== */}
-      <section id="offres" className="mx-auto max-w-7xl px-4 pb-8 pt-20 sm:px-6 lg:px-8">
+      <section id="offres" className="mx-auto max-w-7xl px-4 pb-8 pt-14 sm:px-6 lg:px-8">
         <div className="mb-10" data-reveal="up">
           <h2 className="text-3xl font-extrabold sm:text-4xl">Nos prestations</h2>
           <p className="mt-2 text-[var(--text-muted)]">
@@ -213,17 +278,20 @@ export default function Home() {
         <PricingCards />
       </section>
 
+      {/* ==================== OFFRE ENTREPRISES ==================== */}
+      <EntrepriseSection />
+
       {/* ==================== FORMULES + CHAUFFEUR ==================== */}
-      <section className="mx-auto max-w-7xl px-4 pb-8 sm:px-6 lg:px-8">
+      <section className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         <ChauffeurToggle />
       </section>
 
-      {/* ==================== POINTS DE RDV + MAP ==================== */}
+      {/* ==================== NOS IMPLANTATIONS / POINTS RDV + MAP ==================== */}
       <section id="rdv" className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
         <div className="mb-10" data-reveal="up">
-          <h2 className="text-3xl font-extrabold sm:text-4xl">Points de rendez-vous</h2>
+          <h2 className="text-3xl font-extrabold sm:text-4xl">Nos implantations</h2>
           <p className="mt-2 text-[var(--text-muted)]">
-            Retrouvez-nous à l'un de nos points de prise en charge.
+            Retrouvez Vercel Prestige dans nos lieux partenaires.
           </p>
         </div>
         <div className="mb-8" data-reveal="scale">
@@ -236,8 +304,11 @@ export default function Home() {
               className="surface-card rounded-2xl p-5 transition-all duration-300 hover:ring-1 hover:ring-[var(--glass-border)]"
               data-reveal="up"
             >
-              <h3 className="text-base font-semibold">{point.name}</h3>
-              <p className="mt-1 text-sm text-[var(--text-muted)]">{point.address}</p>
+              <div className="flex items-center gap-2 mb-2">
+                <IconMapPin className="h-4 w-4 text-[var(--gold)]" />
+                <h3 className="text-base font-semibold">{point.name}</h3>
+              </div>
+              <p className="text-sm text-[var(--text-muted)]">{point.address}</p>
               <p className="mt-2 text-xs text-[var(--text-muted)]">{point.instruction}</p>
               <a
                 href={point.mapsUrl}
@@ -245,17 +316,38 @@ export default function Home() {
                 rel="noreferrer"
                 className="mt-3 inline-flex text-sm font-medium link-gold hover:underline"
               >
-                Ouvrir sur Maps →
+                Ouvrir sur Maps
+                <svg className="ml-1 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M7 17L17 7M17 7H7M17 7v10" /></svg>
               </a>
             </article>
           ))}
         </div>
       </section>
 
+      {/* ==================== IMAGE 3 – FULL WIDTH VISUAL BREAK ==================== */}
+      <section className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8" data-reveal="scale">
+        <div className="surface-card relative h-[280px] overflow-hidden rounded-2xl sm:h-[360px]">
+          <Image
+            src="/images/image3.jpg"
+            alt="Vercel Prestige – Expérience premium"
+            fill
+            sizes="100vw"
+            className="object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/30 to-transparent" />
+          <div className="absolute bottom-0 left-0 p-8">
+            <p className="text-xs font-semibold uppercase tracking-widest text-[var(--gold)]">Vercel Prestige</p>
+            <p className="mt-1 text-2xl font-bold text-white sm:text-3xl">
+              Quand chaque déplacement<br />devient une signature.
+            </p>
+          </div>
+        </div>
+      </section>
+
       {/* ==================== RÉSERVATION ==================== */}
       <ReservationSection />
 
-      {/* ==================== FAQ (après réservation) ==================== */}
+      {/* ==================== FAQ ==================== */}
       <section id="faq" className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
         <div className="mb-10" data-reveal="up">
           <h2 className="text-3xl font-extrabold sm:text-4xl">Questions fréquentes</h2>
@@ -289,12 +381,22 @@ export default function Home() {
 
       {/* ==================== FOOTER ==================== */}
       <footer className="border-t border-[var(--glass-border)] py-10">
-        <div className="mx-auto flex max-w-7xl flex-col gap-4 px-4 text-sm text-[var(--text-muted)] sm:px-6 lg:flex-row lg:items-center lg:justify-between lg:px-8">
-          <p>{content.siteName} · {content.zone}</p>
-          <div className="flex flex-wrap gap-4">
-            <Link href="/mentions-legales" className="link-gold hover:underline">Mentions légales</Link>
-            <Link href="/confidentialite" className="link-gold hover:underline">Confidentialité</Link>
-            <Link href="/conditions" className="link-gold hover:underline">Conditions</Link>
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
+            <div>
+              <p className="text-base font-bold uppercase tracking-widest text-[var(--gold)]">Vercel Prestige</p>
+              <p className="mt-1 text-sm italic text-[var(--text-muted)]">{content.tagline}</p>
+              <p className="mt-3 text-xs text-[var(--text-muted)]">{content.founders}</p>
+            </div>
+            <div className="flex flex-wrap gap-4 text-sm">
+              <Link href="/mentions-legales" className="link-gold hover:underline">Mentions légales</Link>
+              <Link href="/confidentialite" className="link-gold hover:underline">Confidentialité</Link>
+              <Link href="/conditions" className="link-gold hover:underline">Conditions</Link>
+            </div>
+          </div>
+          <div className="mt-6 flex items-center gap-1 text-xs text-[var(--text-muted)]">
+            <IconShield className="h-3.5 w-3.5 text-[var(--gold)]" />
+            <span>Paiement sécurisé par Stripe</span>
           </div>
         </div>
       </footer>

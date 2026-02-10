@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { prestationPricing, getDepositAmount } from "@/data/pricing";
+import PrestationIcon from "@/components/PrestationIcon";
 
 export default function PricingCards() {
   const [selectedIdx, setSelectedIdx] = useState<number | null>(null);
@@ -30,11 +31,12 @@ export default function PricingCards() {
             }`}
             data-reveal="up"
           >
-            {/* Top accent */}
             <div className={`absolute top-0 left-4 right-4 h-px transition-all duration-500 ${isActive ? "bg-[var(--gold)]/60" : "bg-transparent"}`} />
 
             <div className="flex items-center gap-3">
-              <span className="text-xl">{item.icon}</span>
+              <span className={`flex h-9 w-9 items-center justify-center rounded-lg transition-colors duration-300 ${isActive ? "bg-[var(--gold)]/15 text-[var(--gold)]" : "bg-white/5 text-[var(--text-muted)]"}`}>
+                <PrestationIcon name={item.iconName} className="h-4.5 w-4.5" />
+              </span>
               <h3 className="text-lg font-semibold">{item.title}</h3>
             </div>
 
@@ -47,7 +49,6 @@ export default function PricingCards() {
 
             <p className="mt-3 text-sm text-[var(--text-muted)]">{item.description}</p>
 
-            {/* Expanded */}
             <div className={`grid transition-all duration-500 ease-out ${isActive ? "mt-4 grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"}`}>
               <div className="overflow-hidden">
                 <div className="accent-line mb-3" />

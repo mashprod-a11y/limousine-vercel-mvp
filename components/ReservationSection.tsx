@@ -4,15 +4,19 @@ import Link from "next/link";
 import { FormEvent, useMemo, useState } from "react";
 import { content } from "@/data/content";
 import { pickupPoints } from "@/data/pickupPoints";
-import { prestationPricing, getDepositAmount } from "@/data/pricing";
+import { prestationPricing, entreprisePricing, getDepositAmount } from "@/data/pricing";
+import PrestationIcon from "@/components/PrestationIcon";
+
+const allPrestations = [
+  ...prestationPricing.map((p) => ({ id: p.id, title: p.title, price: p.price, iconName: p.iconName, description: p.description })),
+  { id: entreprisePricing.id, title: entreprisePricing.title, price: entreprisePricing.priceFrom, iconName: entreprisePricing.iconName, description: entreprisePricing.description },
+];
 
 type ReservationFormState = {
   prestation: string;
   formule: string;
   chauffeur: "avec" | "sans";
-  dateMode: "date_unique" | "plage";
   dateStart: string;
-  dateEnd: string;
   heureApprox: string;
   pickupPointId: string;
   fullName: string;
@@ -34,9 +38,7 @@ const defaultState: ReservationFormState = {
   prestation: "mariage",
   formule: "heure",
   chauffeur: "avec",
-  dateMode: "date_unique",
   dateStart: "",
-  dateEnd: "",
   heureApprox: "",
   pickupPointId: pickupPoints[0]?.id ?? "",
   fullName: "",
@@ -61,7 +63,7 @@ export default function ReservationSection() {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const selectedPricing = useMemo(
-    () => prestationPricing.find((p) => p.id === form.prestation),
+    () => allPrestations.find((p) => p.id === form.prestation),
     [form.prestation],
   );
 
@@ -78,10 +80,7 @@ export default function ReservationSection() {
     [form.formule],
   );
 
-  const summaryDate =
-    form.dateMode === "plage"
-      ? `${toReadableDate(form.dateStart)} → ${toReadableDate(form.dateEnd)}`
-      : toReadableDate(form.dateStart);
+  const summaryDate = toReadableDate(form.dateStart);
 
   const canGoStep2 = form.prestation && form.formule && form.dateStart;
   const canSubmit =
@@ -102,10 +101,6 @@ export default function ReservationSection() {
     if (!form.email.trim()) return "L'email est obligatoire.";
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim())) return "Veuillez saisir un email valide.";
     if (!form.dateStart) return "La date est obligatoire.";
-    if (form.dateMode === "plage") {
-      if (!form.dateEnd) return "La date de fin est obligatoire.";
-      if (form.dateEnd < form.dateStart) return "La date de fin doit être après la date de début.";
-    }
     if (!form.acceptConditions) return "Vous devez accepter les conditions.";
     return null;
   };
@@ -176,7 +171,11 @@ export default function ReservationSection() {
                   <span className={`flex h-5 w-5 items-center justify-center rounded-full text-[10px] font-bold ${
                     isActive ? "bg-black/20 text-white" : isDone ? "bg-[var(--gold)]/30" : "bg-white/10"
                   }`}>
-                    {isDone ? "✓" : stepNum}
+                    {isDone ? (
+                      <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                      </svg>
+                    ) : stepNum}
                   </span>
                   <span className="hidden sm:inline">{label}</span>
                 </button>
@@ -187,7 +186,6 @@ export default function ReservationSection() {
 
         <form onSubmit={handleSubmit}>
           <div className="grid gap-6 lg:grid-cols-[1fr_340px]">
-            {/* Main form area */}
             <div className="surface-card rounded-2xl p-5 sm:p-7">
               {/* Step 1 */}
               {step === 1 && (
@@ -197,7 +195,7 @@ export default function ReservationSection() {
                       Choisissez votre prestation
                     </p>
                     <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-                      {prestationPricing.map((p) => (
+                      {allPrestations.map((p) => (
                         <button
                           key={p.id}
                           type="button"
@@ -209,9 +207,11 @@ export default function ReservationSection() {
                           }`}
                         >
                           <div className="flex items-center justify-between">
-                            <span className="text-lg">{p.icon}</span>
+                            <span className={`flex h-9 w-9 items-center justify-center rounded-lg ${form.prestation === p.id ? "bg-[var(--gold)]/15 text-[var(--gold)]" : "bg-white/5 text-[var(--text-muted)]"}`}>
+                              <PrestationIcon name={p.iconName} className="h-4 w-4" />
+                            </span>
                             <span className={`text-sm font-bold ${form.prestation === p.id ? "text-[var(--gold)]" : "text-white"}`}>
-                              {p.price} €
+                              {p.id === "entreprise" ? `dès ${p.price}` : p.price} €
                             </span>
                           </div>
                           <p className="mt-2 text-sm font-semibold">{p.title}</p>
@@ -267,7 +267,8 @@ export default function ReservationSection() {
                       onClick={() => setStep(2)}
                       className="btn-primary rounded-full px-8 py-3 text-sm font-semibold disabled:cursor-not-allowed disabled:opacity-40"
                     >
-                      Continuer →
+                      Continuer
+                      <svg className="ml-1 inline h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
                     </button>
                   </div>
                 </div>
@@ -276,10 +277,7 @@ export default function ReservationSection() {
               {/* Step 2 */}
               {step === 2 && (
                 <div className="space-y-5">
-                  <p className="text-xs font-semibold uppercase tracking-wider text-[var(--text-muted)]">
-                    Vos informations
-                  </p>
-
+                  <p className="text-xs font-semibold uppercase tracking-wider text-[var(--text-muted)]">Vos informations</p>
                   <div className="grid gap-4 sm:grid-cols-2">
                     <div className="space-y-1.5">
                       <label className="text-xs font-medium text-[var(--text-muted)]">Nom complet *</label>
@@ -290,7 +288,6 @@ export default function ReservationSection() {
                       <input value={form.phone} onChange={(e) => setValue("phone", e.target.value)} className="input-field" required />
                     </div>
                   </div>
-
                   <div className="grid gap-4 sm:grid-cols-2">
                     <div className="space-y-1.5">
                       <label className="text-xs font-medium text-[var(--text-muted)]">Email *</label>
@@ -301,29 +298,28 @@ export default function ReservationSection() {
                       <input type="number" min={1} value={form.passengers} onChange={(e) => setValue("passengers", e.target.value)} className="input-field" />
                     </div>
                   </div>
-
                   <div className="space-y-1.5">
                     <label className="text-xs font-medium text-[var(--text-muted)]">Point de rendez-vous</label>
                     <select value={form.pickupPointId} onChange={(e) => setValue("pickupPointId", e.target.value)} className="input-field">
                       {pickupPoints.map((p) => (<option key={p.id} value={p.id}>{p.name}</option>))}
                     </select>
                   </div>
-
                   <div className="space-y-1.5">
                     <label className="text-xs font-medium text-[var(--text-muted)]">Notes complémentaires</label>
                     <textarea value={form.notes} onChange={(e) => setValue("notes", e.target.value)} rows={3} className="input-field" placeholder="Demandes particulières, itinéraire souhaité..." />
                   </div>
-
                   <div className="flex justify-between">
-                    <button type="button" onClick={() => setStep(1)} className="text-sm text-[var(--text-muted)] hover:text-white transition-colors">
-                      ← Retour
+                    <button type="button" onClick={() => setStep(1)} className="flex items-center gap-1 text-sm text-[var(--text-muted)] hover:text-white transition-colors">
+                      <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" /></svg>
+                      Retour
                     </button>
                     <button
                       type="button"
                       onClick={() => { if (form.fullName && form.phone && form.email) setStep(3); else setErrorMessage("Remplissez les champs obligatoires."); }}
                       className="btn-primary rounded-full px-8 py-3 text-sm font-semibold"
                     >
-                      Continuer →
+                      Continuer
+                      <svg className="ml-1 inline h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
                     </button>
                   </div>
                 </div>
@@ -332,10 +328,7 @@ export default function ReservationSection() {
               {/* Step 3 */}
               {step === 3 && (
                 <div className="space-y-5">
-                  <p className="text-xs font-semibold uppercase tracking-wider text-[var(--text-muted)]">
-                    Vérifiez et confirmez
-                  </p>
-
+                  <p className="text-xs font-semibold uppercase tracking-wider text-[var(--text-muted)]">Vérifiez et confirmez</p>
                   <div className="grid gap-3 sm:grid-cols-2">
                     {[
                       { label: "Prestation", value: selectedPricing?.title },
@@ -363,21 +356,18 @@ export default function ReservationSection() {
                     />
                     <span className="text-sm text-[var(--text-muted)]">
                       J'accepte les{" "}
-                      <Link href="/conditions" className="link-gold underline-offset-2 hover:underline">
-                        conditions de réservation
-                      </Link>.
+                      <Link href="/conditions" className="link-gold underline-offset-2 hover:underline">conditions de réservation</Link>.
                     </span>
                   </label>
 
                   {errorMessage && (
-                    <p className="rounded-xl border border-red-400/30 bg-red-900/20 px-4 py-2.5 text-sm text-red-200">
-                      {errorMessage}
-                    </p>
+                    <p className="rounded-xl border border-red-400/30 bg-red-900/20 px-4 py-2.5 text-sm text-red-200">{errorMessage}</p>
                   )}
 
                   <div className="flex justify-between">
-                    <button type="button" onClick={() => setStep(2)} className="text-sm text-[var(--text-muted)] hover:text-white transition-colors">
-                      ← Retour
+                    <button type="button" onClick={() => setStep(2)} className="flex items-center gap-1 text-sm text-[var(--text-muted)] hover:text-white transition-colors">
+                      <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" /></svg>
+                      Retour
                     </button>
                     <button
                       type="submit"
@@ -395,34 +385,23 @@ export default function ReservationSection() {
             <aside>
               <div className="surface-card sticky top-24 rounded-2xl p-5">
                 <p className="text-xs font-semibold uppercase tracking-wider text-[var(--text-muted)]">Récapitulatif</p>
-
                 <div className="mt-4 space-y-3">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                      <span className="text-lg">{selectedPricing?.icon}</span>
+                      <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-[var(--gold)]/15 text-[var(--gold)]">
+                        <PrestationIcon name={selectedPricing?.iconName ?? "sparkles"} className="h-4 w-4" />
+                      </span>
                       <span className="text-sm font-semibold">{selectedPricing?.title}</span>
                     </div>
                     <span className="text-sm font-bold text-white">{totalPrice} €</span>
                   </div>
-
                   <div className="space-y-1 text-xs text-[var(--text-muted)]">
-                    <div className="flex justify-between">
-                      <span>Formule</span>
-                      <span>{selectedFormuleLabel}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>Chauffeur</span>
-                      <span>{form.chauffeur === "avec" ? "Oui" : "Non"}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>Date</span>
-                      <span>{summaryDate}</span>
-                    </div>
+                    <div className="flex justify-between"><span>Formule</span><span>{selectedFormuleLabel}</span></div>
+                    <div className="flex justify-between"><span>Chauffeur</span><span>{form.chauffeur === "avec" ? "Oui" : "Non"}</span></div>
+                    <div className="flex justify-between"><span>Date</span><span>{summaryDate}</span></div>
                   </div>
                 </div>
-
                 <div className="my-4 accent-line" />
-
                 <div className="flex items-end justify-between">
                   <div>
                     <p className="text-xs text-[var(--text-muted)]">Acompte (10%)</p>
@@ -430,12 +409,9 @@ export default function ReservationSection() {
                   </div>
                   <p className="text-xs text-[var(--text-muted)]">sur {totalPrice} €</p>
                 </div>
-
                 <p className="mt-3 text-[11px] text-[var(--text-muted)]">
                   Le solde de {totalPrice - depositAmount} € est à régler le jour de la prestation.{" "}
-                  <Link href="/conditions" className="link-gold underline-offset-2 hover:underline">
-                    Conditions
-                  </Link>
+                  <Link href="/conditions" className="link-gold underline-offset-2 hover:underline">Conditions</Link>
                 </p>
               </div>
             </aside>
