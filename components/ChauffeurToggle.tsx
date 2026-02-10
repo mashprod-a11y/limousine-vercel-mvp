@@ -4,99 +4,135 @@ import { useState } from "react";
 
 const formules = ["À l'heure", "Demi-journée", "Journée", "Événement"];
 
+interface Feature {
+  label: string;
+  avec: boolean | string;
+  sans: boolean | string;
+}
+
+const features: Feature[] = [
+  { label: "Chauffeur professionnel", avec: true, sans: false },
+  { label: "Véhicule de prestige", avec: true, sans: true },
+  { label: "Décoration possible", avec: true, sans: false },
+  { label: "Itinéraire personnalisé", avec: true, sans: "Libre" },
+  { label: "Ambiance musicale", avec: true, sans: true },
+  { label: "Assurance incluse", avec: true, sans: "Caution requise" },
+  { label: "Ponctualité garantie", avec: true, sans: "Selon client" },
+  { label: "Pièces justificatives", avec: false, sans: true },
+  { label: "Caution obligatoire", avec: false, sans: true },
+];
+
 export default function ChauffeurToggle() {
   const [mode, setMode] = useState<"avec" | "sans">("avec");
 
   return (
-    <div className="surface-card rounded-3xl p-6 sm:p-8" data-reveal="up">
-      <h2 className="text-2xl font-extrabold">Formules</h2>
+    <div className="surface-card rounded-2xl p-6 sm:p-8" data-reveal="up">
+      <h2 className="text-2xl font-extrabold">Formules et options</h2>
 
       <div className="mt-5 flex flex-wrap gap-2">
         {formules.map((item) => (
           <span
             key={item}
-            className="rounded-full border border-[var(--glass-border)] bg-white/5 px-5 py-2 text-sm backdrop-blur-sm"
+            className="rounded-full border border-[var(--glass-border)] bg-white/4 px-4 py-1.5 text-sm"
           >
             {item}
           </span>
         ))}
       </div>
 
-      {/* Chauffeur toggle */}
-      <p className="mt-6 mb-3 text-sm font-medium text-[var(--text-muted)]">
-        Mode de conduite
-      </p>
-      <div className="flex gap-3">
+      {/* Toggle buttons */}
+      <div className="mt-8 flex rounded-xl border border-[var(--glass-border)] p-1">
         <button
           type="button"
           onClick={() => setMode("avec")}
-          className={`flex-1 rounded-2xl border p-5 text-left transition-all duration-300 ${
+          className={`flex-1 rounded-lg py-3 text-sm font-semibold transition-all duration-300 ${
             mode === "avec"
-              ? "border-[var(--gold)] bg-[var(--gold)]/10 ring-1 ring-[var(--gold)]/30 shadow-lg shadow-[var(--gold)]/5"
-              : "border-[var(--glass-border)] bg-white/3 hover:border-[var(--gold)]/30 hover:bg-white/5"
+              ? "bg-[var(--gold)] text-black shadow-lg"
+              : "text-[var(--text-muted)] hover:text-white"
           }`}
         >
-          <div className="flex items-center gap-3">
-            <span
-              className={`flex h-5 w-5 items-center justify-center rounded-full border-2 transition-colors duration-300 ${
-                mode === "avec"
-                  ? "border-[var(--gold)] bg-[var(--gold)]"
-                  : "border-[var(--glass-border)]"
-              }`}
-            >
-              {mode === "avec" && (
-                <span className="h-2 w-2 rounded-full bg-[var(--rich-mahogany)]" />
-              )}
-            </span>
-            <span className="font-semibold">Avec chauffeur</span>
-          </div>
-          <div
-            className={`overflow-hidden transition-all duration-400 ease-out ${
-              mode === "avec" ? "mt-3 max-h-24 opacity-100" : "max-h-0 opacity-0"
-            }`}
-          >
-            <p className="text-sm text-[var(--text-muted)]">
-              Solution clé en main : chauffeur professionnel, confort total et
-              ponctualité garantie.
-            </p>
-          </div>
+          Avec chauffeur
         </button>
-
         <button
           type="button"
           onClick={() => setMode("sans")}
-          className={`flex-1 rounded-2xl border p-5 text-left transition-all duration-300 ${
+          className={`flex-1 rounded-lg py-3 text-sm font-semibold transition-all duration-300 ${
             mode === "sans"
-              ? "border-[var(--gold)] bg-[var(--gold)]/10 ring-1 ring-[var(--gold)]/30 shadow-lg shadow-[var(--gold)]/5"
-              : "border-[var(--glass-border)] bg-white/3 hover:border-[var(--gold)]/30 hover:bg-white/5"
+              ? "bg-[var(--gold)] text-black shadow-lg"
+              : "text-[var(--text-muted)] hover:text-white"
           }`}
         >
-          <div className="flex items-center gap-3">
-            <span
-              className={`flex h-5 w-5 items-center justify-center rounded-full border-2 transition-colors duration-300 ${
-                mode === "sans"
-                  ? "border-[var(--gold)] bg-[var(--gold)]"
-                  : "border-[var(--glass-border)]"
-              }`}
-            >
-              {mode === "sans" && (
-                <span className="h-2 w-2 rounded-full bg-[var(--rich-mahogany)]" />
-              )}
-            </span>
-            <span className="font-semibold">Sans chauffeur</span>
-          </div>
-          <div
-            className={`overflow-hidden transition-all duration-400 ease-out ${
-              mode === "sans" ? "mt-3 max-h-24 opacity-100" : "max-h-0 opacity-0"
-            }`}
-          >
-            <p className="text-sm text-[var(--text-muted)]">
-              Conduisez vous-même. Conditions spécifiques, caution et pièces
-              justificatives requises.
-            </p>
-          </div>
+          Sans chauffeur
         </button>
+      </div>
+
+      {/* Comparison table */}
+      <div className="mt-6 overflow-hidden rounded-xl border border-[var(--glass-border)]">
+        <table className="w-full text-sm">
+          <thead>
+            <tr className="border-b border-[var(--glass-border)] bg-white/3">
+              <th className="px-4 py-3 text-left font-medium text-[var(--text-muted)]">Caractéristique</th>
+              <th className={`px-4 py-3 text-center font-medium transition-colors duration-300 ${mode === "avec" ? "text-[var(--gold)]" : "text-[var(--text-muted)]"}`}>
+                Avec chauffeur
+              </th>
+              <th className={`px-4 py-3 text-center font-medium transition-colors duration-300 ${mode === "sans" ? "text-[var(--gold)]" : "text-[var(--text-muted)]"}`}>
+                Sans chauffeur
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {features.map((f, i) => (
+              <tr key={f.label} className={`border-b border-[var(--glass-border)] transition-colors duration-200 ${i % 2 === 0 ? "bg-white/[0.02]" : ""}`}>
+                <td className="px-4 py-3 text-[var(--text-primary)]">{f.label}</td>
+                <td className="px-4 py-3 text-center">
+                  {renderCell(f.avec, mode === "avec")}
+                </td>
+                <td className="px-4 py-3 text-center">
+                  {renderCell(f.sans, mode === "sans")}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      {/* Summary */}
+      <div className={`mt-4 rounded-xl border p-4 transition-all duration-300 ${
+        mode === "avec"
+          ? "border-[var(--gold)]/30 bg-[var(--gold)]/5"
+          : "border-[var(--glass-border)] bg-white/3"
+      }`}>
+        <p className="text-sm font-semibold">
+          {mode === "avec" ? "✓ Recommandé" : "⚠ Conditions spécifiques"}
+        </p>
+        <p className="mt-1 text-sm text-[var(--text-muted)]">
+          {mode === "avec"
+            ? "Service clé en main : votre chauffeur s'occupe de tout. Confort et sérénité garantis."
+            : "Vous conduisez vous-même. Caution, pièces justificatives et conditions spécifiques s'appliquent."}
+        </p>
       </div>
     </div>
   );
+}
+
+function renderCell(value: boolean | string, isHighlighted: boolean) {
+  if (value === true) {
+    return (
+      <span className={`inline-flex items-center justify-center transition-colors duration-300 ${isHighlighted ? "text-[var(--gold)]" : "text-green-400/70"}`}>
+        <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+        </svg>
+      </span>
+    );
+  }
+  if (value === false) {
+    return (
+      <span className="inline-flex items-center justify-center text-[var(--text-muted)]/40">
+        <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </span>
+    );
+  }
+  return <span className={`text-xs ${isHighlighted ? "text-[var(--gold)]" : "text-[var(--text-muted)]"}`}>{value}</span>;
 }

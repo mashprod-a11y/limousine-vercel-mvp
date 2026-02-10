@@ -60,7 +60,7 @@ export default function PickupMap({ points }: { points: MapPoint[] }) {
       // Custom gold marker icon
       const goldIcon = L.divIcon({
         className: "",
-        html: `<div style="width:28px;height:28px;background:#d4af37;border:3px solid #250902;border-radius:50%;box-shadow:0 0 12px rgba(212,175,55,0.5);display:flex;align-items:center;justify-content:center;"><div style="width:8px;height:8px;background:#250902;border-radius:50%;"></div></div>`,
+        html: `<div style="width:28px;height:28px;background:#d4af37;border:3px solid #000;border-radius:50%;box-shadow:0 0 12px rgba(212,175,55,0.5);display:flex;align-items:center;justify-content:center;"><div style="width:8px;height:8px;background:#000;border-radius:50%;"></div></div>`,
         iconSize: [28, 28],
         iconAnchor: [14, 14],
         popupAnchor: [0, -16],
@@ -88,16 +88,16 @@ export default function PickupMap({ points }: { points: MapPoint[] }) {
   }, [points]);
 
   return (
-    <div className="relative overflow-hidden rounded-3xl border border-[var(--glass-border)]">
+    <div className="relative overflow-hidden rounded-2xl border border-[var(--glass-border)]">
       {!loaded && (
-        <div className="absolute inset-0 z-10 flex items-center justify-center bg-[var(--rich-mahogany)]">
+        <div className="absolute inset-0 z-10 flex items-center justify-center bg-black">
           <div className="h-6 w-6 animate-spin rounded-full border-2 border-[var(--gold)] border-t-transparent" />
         </div>
       )}
       <div
         ref={containerRef}
         className="h-[380px] w-full sm:h-[420px]"
-        style={{ background: "#1a0a04" }}
+        style={{ background: "#0a0a0a" }}
       />
     </div>
   );
