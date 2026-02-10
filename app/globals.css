@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --ink-black: #03071e;
+  --night-bordeaux: #370617;
+  --black-cherry: #6a040f;
+  --oxblood: #9d0208;
+  --brick-ember: #d00000;
+  --red-ochre: #dc2f02;
+  --cayenne-red: #e85d04;
+  --deep-saffron: #f48c06;
+  --orange: #faa307;
+  --amber-flame: #ffba08;
+}
+
+body {
+  background-color: var(--ink-black);
+  color: #F7F7F7;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
