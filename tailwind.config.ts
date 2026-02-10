@@ -8,16 +8,13 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        inkBlack: "var(--ink-black)",
-        nightBordeaux: "var(--night-bordeaux)",
-        blackCherry: "var(--black-cherry)",
-        oxblood: "var(--oxblood)",
-        brickEmber: "var(--brick-ember)",
-        redOchre: "var(--red-ochre)",
-        cayenneRed: "var(--cayenne-red)",
-        deepSaffron: "var(--deep-saffron)",
-        orange: "var(--orange)",
-        amberFlame: "var(--amber-flame)",
+        mahogany: "var(--rich-mahogany)",
+        "mahogany-2": "var(--rich-mahogany-2)",
+        "black-cherry": "var(--black-cherry)",
+        "dark-wine": "var(--dark-wine)",
+        "brown-red": "var(--brown-red)",
+        gold: "var(--gold)",
+        "gold-light": "var(--gold-light)",
       },
     },
   },

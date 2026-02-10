@@ -155,11 +155,11 @@ export default function ReservationSection() {
 
   return (
     <section id="reservation" className="py-20 sm:py-24">
-      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
           <div>
             <p className="mb-2 inline-flex rounded-full border border-[var(--glass-border)] bg-white/5 backdrop-blur-sm px-3 py-1 text-sm text-[var(--text-muted)]">
-              Acompte en ligne — Confirmation rapide
+              Acompte en ligne · Confirmation rapide
             </p>
             <h2 className="text-3xl font-semibold tracking-tight text-white sm:text-4xl">Réservation</h2>
             <p className="mt-2 max-w-2xl text-[var(--text-muted)]">
@@ -389,7 +389,7 @@ export default function ReservationSection() {
 
                 <p className="mt-3 text-xs text-[var(--text-muted)]">
                   Acompte remboursable selon conditions.{" "}
-                  <Link href="/conditions" className="text-[var(--brown-red)] underline-offset-2 hover:underline">
+                  <Link href="/conditions" className="link-gold underline-offset-2 hover:underline">
                     Voir les conditions
                   </Link>
                 </p>
