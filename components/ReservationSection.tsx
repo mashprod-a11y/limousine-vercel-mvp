@@ -158,11 +158,11 @@ export default function ReservationSection() {
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
           <div>
-            <p className="mb-2 inline-flex rounded-full border border-[rgba(255,186,8,0.35)] bg-[rgba(255,186,8,0.08)] px-3 py-1 text-sm text-[#F7F7F7]">
+            <p className="mb-2 inline-flex rounded-full border border-[var(--glass-border)] bg-white/5 backdrop-blur-sm px-3 py-1 text-sm text-[var(--text-muted)]">
               Acompte en ligne — Confirmation rapide
             </p>
             <h2 className="text-3xl font-semibold tracking-tight text-white sm:text-4xl">Réservation</h2>
-            <p className="mt-2 max-w-2xl text-[rgba(247,247,247,0.72)]">
+            <p className="mt-2 max-w-2xl text-[var(--text-muted)]">
               La disponibilité est confirmée après validation de votre demande.
             </p>
           </div>
@@ -173,12 +173,12 @@ export default function ReservationSection() {
             <div className="space-y-8">
               <div className="grid gap-4 md:grid-cols-2">
                 <label className="space-y-2 text-sm">
-                  <span className="text-[rgba(247,247,247,0.72)]">Prestation</span>
+                  <span className="text-[var(--text-muted)]">Prestation</span>
                   <select
                     name="prestation"
                     value={form.prestation}
                     onChange={(event) => setValue("prestation", event.target.value)}
-                    className="w-full rounded-xl border border-white/15 bg-[#070c22] px-4 py-3 text-white"
+                    className="w-full rounded-xl border border-[var(--glass-border)] bg-[var(--rich-mahogany)] px-4 py-3 text-white"
                   >
                     {prestationOptions.map((option) => (
                       <option key={option.value} value={option.value}>
@@ -189,12 +189,12 @@ export default function ReservationSection() {
                 </label>
 
                 <label className="space-y-2 text-sm">
-                  <span className="text-[rgba(247,247,247,0.72)]">Formule</span>
+                  <span className="text-[var(--text-muted)]">Formule</span>
                   <select
                     name="formule"
                     value={form.formule}
                     onChange={(event) => setValue("formule", event.target.value)}
-                    className="w-full rounded-xl border border-white/15 bg-[#070c22] px-4 py-3 text-white"
+                    className="w-full rounded-xl border border-[var(--glass-border)] bg-[var(--rich-mahogany)] px-4 py-3 text-white"
                   >
                     {formuleOptions.map((option) => (
                       <option key={option.value} value={option.value}>
@@ -206,9 +206,9 @@ export default function ReservationSection() {
               </div>
 
               <fieldset className="space-y-2 text-sm">
-                <legend className="mb-2 text-[rgba(247,247,247,0.72)]">Chauffeur</legend>
+                <legend className="mb-2 text-[var(--text-muted)]">Chauffeur</legend>
                 <div className="flex flex-wrap gap-4">
-                  <label className="inline-flex items-center gap-2 rounded-full border border-white/15 px-4 py-2">
+                  <label className="inline-flex items-center gap-2 rounded-full border border-[var(--glass-border)] px-4 py-2">
                     <input
                       type="radio"
                       name="chauffeur"
@@ -217,7 +217,7 @@ export default function ReservationSection() {
                     />
                     <span>Avec chauffeur</span>
                   </label>
-                  <label className="inline-flex items-center gap-2 rounded-full border border-white/15 px-4 py-2">
+                  <label className="inline-flex items-center gap-2 rounded-full border border-[var(--glass-border)] px-4 py-2">
                     <input
                       type="radio"
                       name="chauffeur"
@@ -228,15 +228,15 @@ export default function ReservationSection() {
                   </label>
                 </div>
                 {form.chauffeur === "sans" && (
-                  <p className="text-xs text-[rgba(247,247,247,0.72)]">Conditions & caution selon dossier.</p>
+                  <p className="text-xs text-[var(--text-muted)]">Conditions & caution selon dossier.</p>
                 )}
               </fieldset>
 
               <div className="grid gap-4 md:grid-cols-2">
                 <fieldset className="space-y-2 text-sm">
-                  <legend className="mb-2 text-[rgba(247,247,247,0.72)]">Mode de date</legend>
+                  <legend className="mb-2 text-[var(--text-muted)]">Mode de date</legend>
                   <div className="flex flex-wrap gap-4">
-                    <label className="inline-flex items-center gap-2 rounded-full border border-white/15 px-4 py-2">
+                    <label className="inline-flex items-center gap-2 rounded-full border border-[var(--glass-border)] px-4 py-2">
                       <input
                         type="radio"
                         name="dateMode"
@@ -245,7 +245,7 @@ export default function ReservationSection() {
                       />
                       <span>Date unique</span>
                     </label>
-                    <label className="inline-flex items-center gap-2 rounded-full border border-white/15 px-4 py-2">
+                    <label className="inline-flex items-center gap-2 rounded-full border border-[var(--glass-border)] px-4 py-2">
                       <input
                         type="radio"
                         name="dateMode"
@@ -258,49 +258,49 @@ export default function ReservationSection() {
                 </fieldset>
 
                 <label className="space-y-2 text-sm">
-                  <span className="text-[rgba(247,247,247,0.72)]">Heure approximative</span>
+                  <span className="text-[var(--text-muted)]">Heure approximative</span>
                   <input
                     name="heureApprox"
                     value={form.heureApprox}
                     onChange={(event) => setValue("heureApprox", event.target.value)}
                     placeholder="Ex: 20h, soirée, après-midi"
-                    className="w-full rounded-xl border border-white/15 bg-[#070c22] px-4 py-3 text-white"
+                    className="w-full rounded-xl border border-[var(--glass-border)] bg-[var(--rich-mahogany)] px-4 py-3 text-white"
                   />
                 </label>
               </div>
 
               <div className="grid gap-4 md:grid-cols-2">
                 <label className="space-y-2 text-sm">
-                  <span className="text-[rgba(247,247,247,0.72)]">Date début</span>
+                  <span className="text-[var(--text-muted)]">Date début</span>
                   <input
                     type="date"
                     name="dateStart"
                     value={form.dateStart}
                     onChange={(event) => setValue("dateStart", event.target.value)}
-                    className="w-full rounded-xl border border-white/15 bg-[#070c22] px-4 py-3 text-white"
+                    className="w-full rounded-xl border border-[var(--glass-border)] bg-[var(--rich-mahogany)] px-4 py-3 text-white"
                     required
                   />
                 </label>
                 <label className="space-y-2 text-sm">
-                  <span className="text-[rgba(247,247,247,0.72)]">Date fin (si plage)</span>
+                  <span className="text-[var(--text-muted)]">Date fin (si plage)</span>
                   <input
                     type="date"
                     name="dateEnd"
                     value={form.dateEnd}
                     onChange={(event) => setValue("dateEnd", event.target.value)}
-                    className="w-full rounded-xl border border-white/15 bg-[#070c22] px-4 py-3 text-white"
+                    className="w-full rounded-xl border border-[var(--glass-border)] bg-[var(--rich-mahogany)] px-4 py-3 text-white"
                     required={form.dateMode === "plage"}
                   />
                 </label>
               </div>
 
               <label className="block space-y-2 text-sm">
-                <span className="text-[rgba(247,247,247,0.72)]">Point de rendez-vous</span>
+                <span className="text-[var(--text-muted)]">Point de rendez-vous</span>
                 <select
                   name="pickupPointId"
                   value={form.pickupPointId}
                   onChange={(event) => setValue("pickupPointId", event.target.value)}
-                  className="w-full rounded-xl border border-white/15 bg-[#070c22] px-4 py-3 text-white"
+                  className="w-full rounded-xl border border-[var(--glass-border)] bg-[var(--rich-mahogany)] px-4 py-3 text-white"
                 >
                   {pickupPoints.map((point) => (
                     <option key={point.id} value={point.id}>
@@ -312,22 +312,22 @@ export default function ReservationSection() {
 
               <div className="grid gap-4 md:grid-cols-2">
                 <label className="space-y-2 text-sm">
-                  <span className="text-[rgba(247,247,247,0.72)]">Nom complet</span>
+                  <span className="text-[var(--text-muted)]">Nom complet</span>
                   <input
                     name="fullName"
                     value={form.fullName}
                     onChange={(event) => setValue("fullName", event.target.value)}
-                    className="w-full rounded-xl border border-white/15 bg-[#070c22] px-4 py-3 text-white"
+                    className="w-full rounded-xl border border-[var(--glass-border)] bg-[var(--rich-mahogany)] px-4 py-3 text-white"
                     required
                   />
                 </label>
                 <label className="space-y-2 text-sm">
-                  <span className="text-[rgba(247,247,247,0.72)]">Téléphone</span>
+                  <span className="text-[var(--text-muted)]">Téléphone</span>
                   <input
                     name="phone"
                     value={form.phone}
                     onChange={(event) => setValue("phone", event.target.value)}
-                    className="w-full rounded-xl border border-white/15 bg-[#070c22] px-4 py-3 text-white"
+                    className="w-full rounded-xl border border-[var(--glass-border)] bg-[var(--rich-mahogany)] px-4 py-3 text-white"
                     required
                   />
                 </label>
@@ -335,67 +335,67 @@ export default function ReservationSection() {
 
               <div className="grid gap-4 md:grid-cols-2">
                 <label className="space-y-2 text-sm">
-                  <span className="text-[rgba(247,247,247,0.72)]">Email</span>
+                  <span className="text-[var(--text-muted)]">Email</span>
                   <input
                     type="email"
                     name="email"
                     value={form.email}
                     onChange={(event) => setValue("email", event.target.value)}
-                    className="w-full rounded-xl border border-white/15 bg-[#070c22] px-4 py-3 text-white"
+                    className="w-full rounded-xl border border-[var(--glass-border)] bg-[var(--rich-mahogany)] px-4 py-3 text-white"
                     required
                   />
                 </label>
                 <label className="space-y-2 text-sm">
-                  <span className="text-[rgba(247,247,247,0.72)]">Passagers (optionnel)</span>
+                  <span className="text-[var(--text-muted)]">Passagers (optionnel)</span>
                   <input
                     type="number"
                     min={1}
                     name="passengers"
                     value={form.passengers}
                     onChange={(event) => setValue("passengers", event.target.value)}
-                    className="w-full rounded-xl border border-white/15 bg-[#070c22] px-4 py-3 text-white"
+                    className="w-full rounded-xl border border-[var(--glass-border)] bg-[var(--rich-mahogany)] px-4 py-3 text-white"
                   />
                 </label>
               </div>
 
               <label className="block space-y-2 text-sm">
-                <span className="text-[rgba(247,247,247,0.72)]">Notes (optionnel)</span>
+                <span className="text-[var(--text-muted)]">Notes (optionnel)</span>
                 <textarea
                   name="notes"
                   value={form.notes}
                   onChange={(event) => setValue("notes", event.target.value)}
                   rows={4}
-                  className="w-full rounded-xl border border-white/15 bg-[#070c22] px-4 py-3 text-white"
+                  className="w-full rounded-xl border border-[var(--glass-border)] bg-[var(--rich-mahogany)] px-4 py-3 text-white"
                 />
               </label>
             </div>
 
             <aside className="space-y-4">
               <div className="surface-muted sticky top-24 rounded-2xl p-4 md:p-5">
-                <p className="text-sm font-medium text-[rgba(247,247,247,0.72)]">Résumé</p>
+                <p className="text-sm font-medium text-[var(--text-muted)]">Résumé</p>
                 <div className="mt-3 flex flex-wrap gap-2 text-xs">
-                  <span className="rounded-full border border-white/20 px-3 py-1">{selectedPrestation}</span>
-                  <span className="rounded-full border border-white/20 px-3 py-1">{selectedFormule}</span>
-                  <span className="rounded-full border border-white/20 px-3 py-1">{summaryDate}</span>
-                  <span className="rounded-full border border-white/20 px-3 py-1">
+                  <span className="rounded-full border border-[var(--glass-border)] px-3 py-1">{selectedPrestation}</span>
+                  <span className="rounded-full border border-[var(--glass-border)] px-3 py-1">{selectedFormule}</span>
+                  <span className="rounded-full border border-[var(--glass-border)] px-3 py-1">{summaryDate}</span>
+                  <span className="rounded-full border border-[var(--glass-border)] px-3 py-1">
                     {selectedPickup?.name ?? "RDV à définir"}
                   </span>
                 </div>
 
                 <div className="my-4 accent-line" />
 
-                <p className="text-sm text-[rgba(247,247,247,0.72)]">Acompte fixe</p>
+                <p className="text-sm text-[var(--text-muted)]">Acompte fixe</p>
                 <p className="text-2xl font-semibold text-white">{content.depositAmount}€</p>
 
-                <p className="mt-3 text-xs text-[rgba(247,247,247,0.72)]">
+                <p className="mt-3 text-xs text-[var(--text-muted)]">
                   Acompte remboursable selon conditions.{" "}
-                  <Link href="/conditions" className="text-[#faa307] underline-offset-2 hover:underline">
+                  <Link href="/conditions" className="text-[var(--brown-red)] underline-offset-2 hover:underline">
                     Voir les conditions
                   </Link>
                 </p>
               </div>
 
-              <label className="inline-flex items-start gap-2 text-sm text-[rgba(247,247,247,0.72)]">
+              <label className="inline-flex items-start gap-2 text-sm text-[var(--text-muted)]">
                 <input
                   type="checkbox"
                   name="acceptConditions"
@@ -412,7 +412,7 @@ export default function ReservationSection() {
                 </p>
               )}
 
-              <div className="sticky bottom-3 z-20 rounded-2xl bg-[#060a1d] p-2 sm:p-0 md:static md:bg-transparent md:p-0">
+              <div className="sticky bottom-3 z-20 rounded-2xl bg-[var(--rich-mahogany)] p-2 sm:p-0 md:static md:bg-transparent md:p-0">
                 <button
                   type="submit"
                   disabled={!canSubmit}
