@@ -4,7 +4,7 @@ import Link from "next/link";
 import { FormEvent, useMemo, useState } from "react";
 import { content } from "@/data/content";
 import { pickupPoints } from "@/data/pickupPoints";
-import { prestationPricing, getDepositAmount, getPrestationPrice } from "@/data/pricing";
+import { prestationPricing, getDepositAmount } from "@/data/pricing";
 
 type ReservationFormState = {
   prestation: string;
