@@ -8,7 +8,7 @@ export default function InteractiveOffers() {
   const [selectedId, setSelectedId] = useState<string | null>(null);
 
   return (
-    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3" data-stagger>
+    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3" data-reveal="up">
       {prestationPricing.map((offer) => {
         const isOpen = selectedId === offer.id;
         return (
@@ -17,7 +17,6 @@ export default function InteractiveOffers() {
             className={`surface-card rounded-2xl p-6 text-left cursor-pointer transition-shadow duration-300 ${
               isOpen ? "ring-1 ring-[var(--gold)]/50" : "hover:ring-1 hover:ring-[var(--glass-border)]"
             }`}
-            data-reveal="up"
             onClick={() => setSelectedId(isOpen ? null : offer.id)}
           >
             <div className="flex items-start justify-between">
@@ -38,7 +37,6 @@ export default function InteractiveOffers() {
             </h3>
             <p className="mt-1 text-sm text-[var(--text-muted)]">{offer.description}</p>
 
-            {/* Always rendered, animated via max-height */}
             <div
               className="overflow-hidden transition-[max-height,opacity] duration-500 ease-in-out"
               style={{

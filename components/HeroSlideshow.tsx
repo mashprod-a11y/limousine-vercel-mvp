@@ -13,14 +13,12 @@ const INTERVAL = 4000;
 
 export default function HeroSlideshow() {
   const [activeIndex, setActiveIndex] = useState(0);
-  const [kenBurnsKey, setKenBurnsKey] = useState(0);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const startTimer = () => {
     if (timerRef.current) clearInterval(timerRef.current);
     timerRef.current = setInterval(() => {
       setActiveIndex((prev) => (prev + 1) % slides.length);
-      setKenBurnsKey((prev) => prev + 1);
     }, INTERVAL);
   };
 
@@ -34,30 +32,29 @@ export default function HeroSlideshow() {
 
   const goTo = (idx: number) => {
     setActiveIndex(idx);
-    setKenBurnsKey((prev) => prev + 1);
     startTimer();
   };
 
   return (
     <div className="relative h-full w-full overflow-hidden rounded-2xl bg-black">
-      {/* All images stacked, opacity controls visibility */}
+      {/* All images always mounted, Ken Burns runs continuously, only opacity toggles */}
       {slides.map((slide, idx) => (
         <div
           key={slide.src}
-          className="absolute inset-0 transition-opacity duration-1000 ease-in-out"
+          className="absolute inset-0"
           style={{
             opacity: idx === activeIndex ? 1 : 0,
+            transition: "opacity 1.2s ease-in-out",
             zIndex: idx === activeIndex ? 1 : 0,
           }}
         >
           <Image
-            key={idx === activeIndex ? `kb-${kenBurnsKey}` : `static-${idx}`}
             src={slide.src}
             alt={slide.alt}
             fill
             sizes="(max-width: 1024px) 100vw, 50vw"
             quality={90}
-            className={`object-cover ${idx === activeIndex ? "ken-burns-active" : ""}`}
+            className={`object-cover ken-burns-${idx}`}
             priority={idx === 0}
           />
         </div>

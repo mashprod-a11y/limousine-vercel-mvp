@@ -196,14 +196,24 @@ details[open] .faq-arrow {
 }
 
 /* ================ KEN BURNS SLIDESHOW ================ */
-@keyframes kenBurns {
-  0% { transform: scale(1) translate(0, 0); }
-  100% { transform: scale(1.12) translate(-1.5%, -1%); }
+@keyframes kenBurns1 {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.15) translate(-1.5%, -1%); }
 }
 
-.ken-burns-active {
-  animation: kenBurns 8s ease-out forwards;
+@keyframes kenBurns2 {
+  0% { transform: scale(1.02) translate(1%, 0); }
+  100% { transform: scale(1.14) translate(-1%, 1.5%); }
 }
+
+@keyframes kenBurns3 {
+  0% { transform: scale(1) translate(-0.5%, 0.5%); }
+  100% { transform: scale(1.13) translate(1%, -1%); }
+}
+
+.ken-burns-0 { animation: kenBurns1 12s ease-in-out infinite alternate; }
+.ken-burns-1 { animation: kenBurns2 14s ease-in-out infinite alternate; }
+.ken-burns-2 { animation: kenBurns3 16s ease-in-out infinite alternate; }
 
 @keyframes shimmer {
   0% { background-position: -200% 0; }

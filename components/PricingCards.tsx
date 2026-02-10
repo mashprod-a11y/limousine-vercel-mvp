@@ -8,7 +8,7 @@ export default function PricingCards() {
   const [selectedId, setSelectedId] = useState<string | null>(null);
 
   return (
-    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3" data-stagger>
+    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3" data-reveal="up">
       {prestationPricing.map((item) => {
         const isOpen = selectedId === item.id;
         const deposit = getDepositAmount(item.id);
@@ -18,7 +18,6 @@ export default function PricingCards() {
             className={`surface-card relative rounded-2xl p-6 cursor-pointer transition-shadow duration-300 ${
               isOpen ? "ring-1 ring-[var(--gold)]/50" : "hover:ring-1 hover:ring-[var(--glass-border)]"
             }`}
-            data-reveal="up"
             onClick={() => setSelectedId(isOpen ? null : item.id)}
           >
             <div className={`absolute top-0 left-4 right-4 h-px transition-all duration-500 ${isOpen ? "bg-[var(--gold)]/60" : "bg-transparent"}`} />
