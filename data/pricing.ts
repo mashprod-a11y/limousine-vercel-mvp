@@ -119,7 +119,6 @@ export const entreprisePricing: EntreprisePricing = {
     "Chauffeur en costume",
     "Flotte adaptée au groupe",
     "Coordination événementielle",
-    "Cocktail de bienvenue à bord",
     "Contact dédié",
   ],
   iconName: "building",

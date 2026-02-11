@@ -16,7 +16,10 @@ Prestations et tarifs fixes :
 - Cérémonies familiales : 500 € (baptême, communion, service personnalisé)
 - Forfait soirée 3 à 4h : 800 € (véhicule à disposition, chauffeur dédié)
 - Sur mesure : à partir de 500 € (devis personnalisé)
-- Offre Entreprises : à partir de 500 € (fête d'entreprise, séminaire, team building, lancement produit, cocktail de bienvenue à bord)
+- Offre Entreprises : à partir de 500 € (fête d'entreprise, séminaire, team building, lancement produit)
+
+Accueil premium à bord (inclus dans toutes les prestations) :
+- Champagne et boissons rafraîchissantes incluses selon la formule choisie
 
 Paiement (deux options au choix du client) :
 - Option 1 – Acompte : 10% à la réservation en ligne via Stripe, solde le jour de la prestation
