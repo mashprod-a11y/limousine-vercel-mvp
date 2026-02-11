@@ -13,6 +13,7 @@ export default function PricingCards() {
         const isOpen = selectedId === item.id;
         const deposit = getDepositAmount(item.id);
         const hasExtras = item.extras && item.extras.length > 0;
+        const hasPerfectFor = item.perfectFor && item.perfectFor.length > 0;
         return (
           <div
             key={item.id}
@@ -42,11 +43,17 @@ export default function PricingCards() {
             <div
               className="overflow-hidden transition-[max-height,opacity] duration-500 ease-in-out"
               style={{
-                maxHeight: isOpen ? "800px" : "0px",
+                maxHeight: isOpen ? "1000px" : "0px",
                 opacity: isOpen ? 1 : 0,
               }}
             >
               <div className="pt-4">
+                {item.longDescription && (
+                  <p className="mb-3 text-xs leading-relaxed text-[var(--text-muted)] italic">
+                    {item.longDescription}
+                  </p>
+                )}
+
                 <div className="accent-line mb-3" />
                 <ul className="space-y-1.5">
                   {item.includes.map((inc) => (
@@ -72,6 +79,22 @@ export default function PricingCards() {
                         </li>
                       ))}
                     </ul>
+                  </div>
+                )}
+
+                {hasPerfectFor && (
+                  <div className="mt-3">
+                    <p className="mb-1.5 text-[10px] font-semibold uppercase tracking-wider text-[var(--text-muted)]">Parfait pour</p>
+                    <div className="flex flex-wrap gap-1.5">
+                      {item.perfectFor!.map((pf) => (
+                        <span
+                          key={pf}
+                          className="rounded-full border border-[var(--gold)]/20 bg-[var(--gold)]/5 px-2.5 py-0.5 text-[10px] font-medium text-[var(--gold)]"
+                        >
+                          {pf}
+                        </span>
+                      ))}
+                    </div>
                   </div>
                 )}
 

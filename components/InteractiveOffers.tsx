@@ -12,6 +12,7 @@ export default function InteractiveOffers() {
       {prestationPricing.map((offer) => {
         const isOpen = selectedId === offer.id;
         const hasExtras = offer.extras && offer.extras.length > 0;
+        const hasPerfectFor = offer.perfectFor && offer.perfectFor.length > 0;
         return (
           <div
             key={offer.id}
@@ -41,14 +42,14 @@ export default function InteractiveOffers() {
             <div
               className="overflow-hidden transition-[max-height,opacity] duration-500 ease-in-out"
               style={{
-                maxHeight: isOpen ? "800px" : "0px",
+                maxHeight: isOpen ? "1000px" : "0px",
                 opacity: isOpen ? 1 : 0,
               }}
             >
               <div className="pt-4">
-                {/* Long description if available */}
+                {/* Long description */}
                 {offer.longDescription && (
-                  <p className="mb-4 text-xs leading-relaxed text-[var(--text-muted)]">
+                  <p className="mb-4 text-xs leading-relaxed text-[var(--text-muted)] italic">
                     {offer.longDescription}
                   </p>
                 )}
@@ -68,7 +69,7 @@ export default function InteractiveOffers() {
                   ))}
                 </ul>
 
-                {/* Extras / Options */}
+                {/* Extras / Options personnalisables */}
                 {hasExtras && (
                   <div className="mt-4">
                     <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-[var(--text-muted)]">
@@ -84,6 +85,25 @@ export default function InteractiveOffers() {
                         </li>
                       ))}
                     </ul>
+                  </div>
+                )}
+
+                {/* Parfait pour */}
+                {hasPerfectFor && (
+                  <div className="mt-4">
+                    <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-[var(--text-muted)]">
+                      Parfait pour
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                      {offer.perfectFor!.map((item) => (
+                        <span
+                          key={item}
+                          className="rounded-full border border-[var(--gold)]/20 bg-[var(--gold)]/5 px-3 py-1 text-xs font-medium text-[var(--gold)]"
+                        >
+                          {item}
+                        </span>
+                      ))}
+                    </div>
                   </div>
                 )}
 

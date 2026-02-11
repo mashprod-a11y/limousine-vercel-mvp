@@ -19,17 +19,17 @@ export default function EntrepriseSection() {
               </span>
               <div>
                 <h2 className="text-2xl font-extrabold">{entreprisePricing.title}</h2>
-                <p className="text-xs text-[var(--text-muted)]">Solution dédiée aux professionnels</p>
+                <p className="text-xs text-[var(--text-muted)]">{entreprisePricing.description}</p>
               </div>
             </div>
 
             <p className="text-sm leading-relaxed text-[var(--text-muted)]">
-              {entreprisePricing.description}
+              {entreprisePricing.longDescription}
             </p>
 
             <div className="mt-6">
               <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-[var(--text-muted)]">
-                Exemples d'événements
+                Exemples d&apos;événements
               </p>
               <div className="flex flex-wrap gap-2">
                 {entreprisePricing.examples.map((ex) => (
@@ -45,7 +45,7 @@ export default function EntrepriseSection() {
 
             <div className="mt-6">
               <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-[var(--text-muted)]">
-                Inclus dans l'offre
+                Inclus dans l&apos;offre
               </p>
               <div className="grid gap-1.5 sm:grid-cols-2">
                 {entreprisePricing.includes.map((inc) => (

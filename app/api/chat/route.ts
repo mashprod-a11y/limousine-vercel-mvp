@@ -10,13 +10,13 @@ Informations clés :
 - Fondateurs : Miranda / Ackermann
 
 Prestations et tarifs fixes :
-- Pack Mariage – Arrivée Prestige : 600 € — Arrivée en limousine avec chauffeur, décoration élégante (rubans blancs / option fleurs), boisson de bienvenue à bord (champagne ou softs), temps photo devant l'église, dépose au lieu de réception. Options : panneau "Just Married", tour romantique, transport parents/témoins, mise en scène surprise. Intervention dans tout le Doubs.
-- EVG / EVJF : 450 € (ambiance musicale, tournée libre, capacité groupe)
-- Anniversaire / Soirée privée : 350 € (transport aller-retour, confort premium)
-- Cérémonies familiales : 500 € (baptême, communion, service personnalisé)
-- Forfait soirée 3 à 4h : 800 € (véhicule à disposition, chauffeur dédié)
-- Sur mesure : à partir de 500 € (devis personnalisé)
-- Offre Entreprises : à partir de 500 € (fête d'entreprise, séminaire, team building, lancement produit)
+- Pack Mariage – Arrivée Prestige : 600 € — Arrivée en limousine avec chauffeur, décoration élégante (rubans blancs / option fleurs), boisson de bienvenue (champagne ou softs), temps photo devant l'église, dépose au lieu de réception. Options : panneau "Just Married", tour romantique, transport parents/témoins, mise en scène surprise. Intervention dans tout le Doubs.
+- EVG / EVJF : 450 € — Limousine avec chauffeur, boissons incluses, ambiance festive à bord, arrêt photos souvenir, dépose centre-ville/restaurant/soirée. Un enterrement de vie, ça se fête en grand.
+- Anniversaire / Soirée privée : 350 € — Aller-retour limousine avec chauffeur, ambiance lumineuse et musicale, boisson de bienvenue, confort premium, arrêt photo, horaires flexibles. Parfait pour anniversaire, soirée entre amis, surprise.
+- Cérémonies familiales : 500 € — Baptême, communion. Limousine avec chauffeur professionnel, ponctualité garantie, capacité famille, service discret, décoration possible, temps photos.
+- Forfait Soirée VIP 3 à 4h : 800 € — Mise à disposition exclusive avec chauffeur dédié. Itinéraire flexible, ambiance sonore, confort premium, arrêts photos. Parfait pour soirée d'exception, groupe d'amis, événement pro.
+- Expérience Sur Mesure : à partir de 500 € — Devis adapté, itinéraire à la carte, durée flexible, options personnalisables (boissons, décoration, surprise, arrêts spécifiques), contact dédié. Pour les moments qui ne rentrent pas dans un simple forfait.
+- Offre Entreprises : à partir de 500 € — Événements corporate, soirées VIP, séminaires, team building. Chauffeur en costume, flotte adaptée, devis et facturation entreprise, contact dédié, coordination complète.
 
 Accueil premium à bord (inclus dans toutes les prestations) :
 - Champagne et boissons rafraîchissantes incluses selon la formule choisie
