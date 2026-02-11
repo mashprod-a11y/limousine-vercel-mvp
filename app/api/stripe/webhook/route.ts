@@ -59,6 +59,10 @@ export async function POST(request: Request) {
 
       // Send confirmation email to client
       const resend = getResend();
+      console.log("Resend configured:", !!resend);
+      console.log("Client email:", meta.email);
+      console.log("FROM_EMAIL:", FROM_EMAIL);
+      console.log("RESEND_API_KEY present:", !!process.env.RESEND_API_KEY);
       if (resend && meta.email) {
         try {
           const html = buildConfirmationEmail({
@@ -76,14 +80,18 @@ export async function POST(request: Request) {
           });
 
           // Email to client
-          await resend.emails.send({
+          const { data: emailData, error: emailError } = await resend.emails.send({
             from: FROM_EMAIL,
             to: meta.email,
             subject: `Confirmation de réservation – ${meta.prestationLabel || "Vercel Prestige"}`,
             html,
           });
 
-          console.log("Email de confirmation envoyé à:", meta.email);
+          if (emailError) {
+            console.error("Resend error (client):", JSON.stringify(emailError));
+          } else {
+            console.log("Email de confirmation envoyé à:", meta.email, "ID:", emailData?.id);
+          }
 
           // Email notification to admin (if configured)
           if (ADMIN_EMAIL) {
@@ -114,8 +122,8 @@ export async function POST(request: Request) {
             });
             console.log("Notification admin envoyée à:", ADMIN_EMAIL);
           }
-        } catch (emailErr) {
-          console.error("Erreur envoi email:", emailErr);
+        } catch (emailErr: unknown) {
+          console.error("Erreur envoi email:", emailErr instanceof Error ? emailErr.message : emailErr);
           // Don't fail the webhook because of email error
         }
       }
