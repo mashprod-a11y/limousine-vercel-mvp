@@ -86,9 +86,9 @@ export default function Home() {
             <Image
               src="/images/logo.png"
               alt="Vercel Prestige"
-              width={160}
-              height={48}
-              className="h-10 w-auto sm:h-12 object-contain"
+              width={200}
+              height={56}
+              className="h-12 w-auto sm:h-14 object-contain"
               priority
             />
           </Link>

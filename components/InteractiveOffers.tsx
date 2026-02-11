@@ -39,6 +39,14 @@ export default function InteractiveOffers() {
             </h3>
             <p className="mt-1 text-sm text-[var(--text-muted)]">{offer.description}</p>
 
+            {/* Hint to click */}
+            <div className={`mt-3 flex items-center gap-1.5 text-xs transition-all duration-300 ${isOpen ? "text-[var(--gold)]" : "text-[var(--text-muted)]"}`}>
+              <svg className={`h-3.5 w-3.5 transition-transform duration-300 ${isOpen ? "rotate-180" : "animate-pulse"}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+              </svg>
+              <span>{isOpen ? "Réduire" : "Voir le détail"}</span>
+            </div>
+
             <div
               className="overflow-hidden transition-[max-height,opacity] duration-500 ease-in-out"
               style={{
