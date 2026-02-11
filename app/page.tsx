@@ -34,27 +34,32 @@ export default function Home() {
     {
       question: "Comment réserver ?",
       answer:
-        "Sélectionnez votre prestation, renseignez la date et vos coordonnées, puis payez l'acompte en ligne. Notre équipe vous confirme la disponibilité rapidement.",
+        "Sélectionnez votre prestation, renseignez la date et vos coordonnées, choisissez votre mode de paiement (acompte ou paiement total), puis réglez en ligne. Notre équipe vous confirme la disponibilité rapidement.",
     },
     {
       question: "Comment fonctionne le paiement ?",
       answer:
-        "Un acompte de 10% est réglé en ligne par carte bancaire via Stripe. Le solde est à régler le jour de la prestation.",
+        "Deux options s'offrent à vous : un acompte de 10% maintenant (solde le jour J), ou le paiement total avec un rabais immédiat de 10% sur le prix de la prestation.",
+    },
+    {
+      question: "Qu'est-ce que le programme de fidélité ?",
+      answer:
+        "Après 5 réservations, vous bénéficiez de 50% de réduction sur votre 6e trajet. Après 10 réservations, votre 11e trajet est entièrement offert. Ces avantages sont cumulables et automatiques.",
     },
     {
       question: "Quand sommes-nous confirmés ?",
       answer:
-        "Après réception de l'acompte et validation manuelle de votre demande par notre équipe.",
+        "Après réception du paiement (acompte ou total) et validation manuelle de votre demande par notre équipe.",
     },
     {
       question: "Annulation et remboursement",
       answer:
-        "Les conditions d'annulation et de remboursement sont détaillées dans nos conditions de réservation.",
+        "Annulation plus de 72h avant : remboursement intégral. Annulation moins de 72h : acompte non remboursable. Les détails sont dans nos conditions de réservation.",
     },
     {
       question: "Location sans chauffeur : conditions",
       answer:
-        "Le dossier est étudié au cas par cas. Pièces justificatives et caution sont requises.",
+        "Le dossier est étudié au cas par cas. Permis de conduire depuis plus de 5 ans, âge minimum 25 ans, pièces justificatives et caution sont requises.",
     },
     {
       question: "Quelle zone desservez-vous ?",
@@ -327,6 +332,83 @@ export default function Home() {
             <p className="mt-1 text-2xl font-bold text-white sm:text-3xl">
               Quand chaque déplacement<br />devient une signature.
             </p>
+          </div>
+        </div>
+      </section>
+
+      {/* ==================== PROGRAMME FIDÉLITÉ ==================== */}
+      <section className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
+        <div className="mb-10 text-center" data-reveal="up">
+          <span className="mb-3 inline-flex rounded-full border border-[var(--gold)]/25 bg-[var(--gold)]/5 px-4 py-1.5 text-sm text-[var(--gold)]">
+            Récompenses exclusives
+          </span>
+          <h2 className="text-3xl font-extrabold sm:text-4xl">Programme de fidélité</h2>
+          <p className="mx-auto mt-2 max-w-lg text-[var(--text-muted)]">
+            Chaque trajet vous rapproche de privilèges exceptionnels.
+          </p>
+        </div>
+        <div className="grid gap-5 sm:grid-cols-3" data-reveal="up">
+          {/* Card 1 - Paiement total */}
+          <div className="surface-card group relative overflow-hidden rounded-2xl p-6 transition-all duration-300 hover:border-[var(--gold)]/30">
+            <div className="absolute -right-6 -top-6 h-24 w-24 rounded-full bg-[var(--gold)]/5 transition-all duration-500 group-hover:scale-150" />
+            <div className="relative">
+              <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-green-500/15 text-green-400">
+                <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 013 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 00-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 01-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 003 15h-.75M15 10.5a3 3 0 11-6 0 3 3 0 016 0zm3 0h.008v.008H18V10.5zm-12 0h.008v.008H6V10.5z" />
+                </svg>
+              </span>
+              <h3 className="mt-4 text-lg font-bold">Paiement total</h3>
+              <p className="mt-1 text-sm text-[var(--text-muted)]">
+                Payez la totalité de votre prestation et bénéficiez d&apos;un <span className="font-bold text-green-400">rabais immédiat de 10%</span>.
+              </p>
+              <div className="mt-4 inline-flex rounded-full bg-green-500/10 border border-green-500/20 px-3 py-1 text-xs font-bold text-green-400">
+                -10% sur le prix total
+              </div>
+            </div>
+          </div>
+
+          {/* Card 2 - 6e trajet */}
+          <div className="surface-card group relative overflow-hidden rounded-2xl p-6 transition-all duration-300 hover:border-[var(--gold)]/30">
+            <div className="absolute -right-6 -top-6 h-24 w-24 rounded-full bg-[var(--gold)]/5 transition-all duration-500 group-hover:scale-150" />
+            <div className="relative">
+              <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-[var(--gold)]/15 text-[var(--gold)]">
+                <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M21 11.25v8.25a1.5 1.5 0 01-1.5 1.5H5.25a1.5 1.5 0 01-1.5-1.5v-8.25M12 4.875A2.625 2.625 0 109.375 7.5H12m0-2.625V7.5m0-2.625A2.625 2.625 0 1114.625 7.5H12m0 0V21m-8.625-9.75h18c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125h-18c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" />
+                </svg>
+              </span>
+              <h3 className="mt-4 text-lg font-bold">5 trajets = 6e à -50%</h3>
+              <p className="mt-1 text-sm text-[var(--text-muted)]">
+                Après 5 réservations, profitez de <span className="font-bold text-[var(--gold)]">50% de réduction</span> sur votre 6e trajet.
+              </p>
+              <div className="mt-4 flex gap-1.5">
+                {[1,2,3,4,5].map((n) => (
+                  <span key={n} className="flex h-7 w-7 items-center justify-center rounded-full bg-[var(--gold)]/15 text-[10px] font-bold text-[var(--gold)]">{n}</span>
+                ))}
+                <span className="flex h-7 items-center justify-center rounded-full bg-[var(--gold)] px-2.5 text-[10px] font-bold text-black">-50%</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Card 3 - 11e trajet */}
+          <div className="surface-card group relative overflow-hidden rounded-2xl p-6 transition-all duration-300 hover:border-[var(--gold)]/30">
+            <div className="absolute -right-6 -top-6 h-24 w-24 rounded-full bg-[var(--gold)]/5 transition-all duration-500 group-hover:scale-150" />
+            <div className="relative">
+              <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-purple-500/15 text-purple-400">
+                <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.455 2.456L21.75 6l-1.036.259a3.375 3.375 0 00-2.455 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z" />
+                </svg>
+              </span>
+              <h3 className="mt-4 text-lg font-bold">10 trajets = 11e offert</h3>
+              <p className="mt-1 text-sm text-[var(--text-muted)]">
+                Au bout de 10 réservations, votre <span className="font-bold text-purple-400">11e trajet est entièrement gratuit</span>.
+              </p>
+              <div className="mt-4 flex flex-wrap gap-1.5">
+                {[1,2,3,4,5,6,7,8,9,10].map((n) => (
+                  <span key={n} className="flex h-6 w-6 items-center justify-center rounded-full bg-purple-500/15 text-[9px] font-bold text-purple-400">{n}</span>
+                ))}
+                <span className="flex h-6 items-center justify-center rounded-full bg-purple-500 px-2 text-[9px] font-bold text-white">OFFERT</span>
+              </div>
+            </div>
           </div>
         </div>
       </section>

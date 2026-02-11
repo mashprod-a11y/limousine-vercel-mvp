@@ -16,6 +16,7 @@ export async function POST(request: Request) {
       prestationLabel,
       totalPrice,
       depositAmount,
+      paymentMode,
       formule,
       chauffeur,
       fullName,
@@ -36,6 +37,7 @@ export async function POST(request: Request) {
       );
     }
 
+    const isFullPayment = paymentMode === "total";
     const stripe = getStripe();
 
     const session = await stripe.checkout.sessions.create({
@@ -47,8 +49,12 @@ export async function POST(request: Request) {
             currency: "eur",
             unit_amount: Math.round(depositAmount * 100),
             product_data: {
-              name: `Acompte – ${prestationLabel}`,
-              description: `Acompte 10% sur ${totalPrice} € – ${prestationLabel}`,
+              name: isFullPayment
+                ? `Paiement total – ${prestationLabel} (rabais -10%)`
+                : `Acompte – ${prestationLabel}`,
+              description: isFullPayment
+                ? `Paiement intégral avec rabais 10% – ${prestationLabel}`
+                : `Acompte 10% sur ${totalPrice} € – ${prestationLabel}`,
             },
           },
           quantity: 1,
@@ -59,6 +65,7 @@ export async function POST(request: Request) {
         prestationLabel,
         totalPrice: String(totalPrice),
         depositAmount: String(depositAmount),
+        paymentMode: paymentMode || "acompte",
         formule,
         chauffeur,
         fullName,

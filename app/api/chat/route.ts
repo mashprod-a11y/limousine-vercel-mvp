@@ -18,11 +18,16 @@ Prestations et tarifs fixes :
 - Sur mesure : à partir de 500 € (devis personnalisé)
 - Offre Entreprises : à partir de 500 € (fête d'entreprise, séminaire, team building, lancement produit, cocktail de bienvenue à bord)
 
-Paiement :
-- Acompte de 10% à la réservation en ligne via Stripe (carte bancaire)
-- Solde le jour de la prestation
-- Annulation > 72h : remboursement intégral de l'acompte
-- Annulation < 72h : acompte non remboursable
+Paiement (deux options au choix du client) :
+- Option 1 – Acompte : 10% à la réservation en ligne via Stripe, solde le jour de la prestation
+- Option 2 – Paiement total : le client paie la totalité et bénéficie d'un rabais immédiat de 10% sur le prix de la prestation
+- Annulation > 72h : remboursement intégral
+- Annulation < 72h : acompte/paiement non remboursable
+
+Programme de fidélité :
+- Après 5 réservations : 50% de réduction sur le 6e trajet
+- Après 10 réservations : le 11e trajet est entièrement offert (gratuit)
+- Ces avantages sont automatiques et cumulables
 
 Options :
 - Avec chauffeur (recommandé) : service clé en main, chauffeur professionnel

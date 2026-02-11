@@ -12,6 +12,8 @@ const allPrestations = [
   { id: entreprisePricing.id, title: entreprisePricing.title, price: entreprisePricing.priceFrom, iconName: entreprisePricing.iconName, description: entreprisePricing.description },
 ];
 
+type PaymentMode = "acompte" | "total";
+
 type ReservationFormState = {
   prestation: string;
   formule: string;
@@ -59,6 +61,7 @@ function toReadableDate(value: string): string {
 export default function ReservationSection() {
   const [form, setForm] = useState<ReservationFormState>(defaultState);
   const [step, setStep] = useState(1);
+  const [paymentMode, setPaymentMode] = useState<PaymentMode>("acompte");
   const [errorMessage, setErrorMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -67,8 +70,12 @@ export default function ReservationSection() {
     [form.prestation],
   );
 
-  const totalPrice = selectedPricing?.price ?? 500;
-  const depositAmount = getDepositAmount(form.prestation);
+  const basePrice = selectedPricing?.price ?? 500;
+  const fullPaymentDiscount = Math.round(basePrice * 0.1);
+  const totalPrice = paymentMode === "total" ? basePrice - fullPaymentDiscount : basePrice;
+  const depositAmount = paymentMode === "total" ? totalPrice : getDepositAmount(form.prestation);
+  const amountToPay = paymentMode === "total" ? totalPrice : depositAmount;
+  const remainingBalance = paymentMode === "total" ? 0 : totalPrice - depositAmount;
 
   const selectedPickup = useMemo(
     () => pickupPoints.find((p) => p.id === form.pickupPointId),
@@ -119,7 +126,8 @@ export default function ReservationSection() {
         body: JSON.stringify({
           ...form,
           totalPrice,
-          depositAmount,
+          depositAmount: amountToPay,
+          paymentMode,
           prestationLabel: selectedPricing?.title,
         }),
       });
@@ -140,11 +148,11 @@ export default function ReservationSection() {
         {/* Header */}
         <div className="mb-10 text-center" data-reveal="up">
           <span className="mb-3 inline-flex rounded-full border border-[var(--gold)]/25 bg-[var(--gold)]/5 px-4 py-1.5 text-sm text-[var(--gold)]">
-            Acompte en ligne · Confirmation rapide
+            Paiement sécurisé · Confirmation rapide
           </span>
           <h2 className="text-3xl font-extrabold sm:text-4xl">Réservation</h2>
           <p className="mx-auto mt-2 max-w-lg text-[var(--text-muted)]">
-            Configurez votre prestation et payez l'acompte en toute sécurité.
+            Configurez votre prestation et payez en toute sécurité.
           </p>
         </div>
 
@@ -347,6 +355,63 @@ export default function ReservationSection() {
                     ))}
                   </div>
 
+                  {/* Payment mode choice */}
+                  <div>
+                    <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-[var(--text-muted)]">Mode de paiement</p>
+                    <div className="grid gap-3 sm:grid-cols-2">
+                      <button
+                        type="button"
+                        onClick={() => setPaymentMode("acompte")}
+                        className={`relative rounded-xl border p-4 text-left transition-all duration-200 ${
+                          paymentMode === "acompte"
+                            ? "border-[var(--gold)] bg-[var(--gold)]/8 ring-1 ring-[var(--gold)]/30"
+                            : "border-[var(--glass-border)] bg-white/[0.02] hover:border-[var(--gold)]/30"
+                        }`}
+                      >
+                        <div className="flex items-center gap-3">
+                          <span className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg ${paymentMode === "acompte" ? "bg-[var(--gold)]/15 text-[var(--gold)]" : "bg-white/5 text-[var(--text-muted)]"}`}>
+                            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                              <path strokeLinecap="round" strokeLinejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                          </span>
+                          <div>
+                            <p className="text-sm font-semibold">Acompte 10%</p>
+                            <p className="text-xs text-[var(--text-muted)]">Payez {getDepositAmount(form.prestation)} € maintenant, le solde le jour J</p>
+                          </div>
+                        </div>
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() => setPaymentMode("total")}
+                        className={`relative rounded-xl border p-4 text-left transition-all duration-200 ${
+                          paymentMode === "total"
+                            ? "border-[var(--gold)] bg-[var(--gold)]/8 ring-1 ring-[var(--gold)]/30"
+                            : "border-[var(--glass-border)] bg-white/[0.02] hover:border-[var(--gold)]/30"
+                        }`}
+                      >
+                        {/* Badge promo */}
+                        <span className="absolute -top-2.5 right-3 rounded-full bg-green-500 px-2.5 py-0.5 text-[10px] font-bold text-white">
+                          -10% de rabais
+                        </span>
+                        <div className="flex items-center gap-3">
+                          <span className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg ${paymentMode === "total" ? "bg-[var(--gold)]/15 text-[var(--gold)]" : "bg-white/5 text-[var(--text-muted)]"}`}>
+                            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                              <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                            </svg>
+                          </span>
+                          <div>
+                            <p className="text-sm font-semibold">Paiement total</p>
+                            <p className="text-xs text-[var(--text-muted)]">
+                              <span className="line-through opacity-60">{basePrice} €</span>{" "}
+                              <span className="font-bold text-green-400">{basePrice - fullPaymentDiscount} €</span>
+                            </p>
+                          </div>
+                        </div>
+                      </button>
+                    </div>
+                  </div>
+
                   <label className="flex items-start gap-3 rounded-xl border border-[var(--glass-border)] bg-white/[0.02] p-4 cursor-pointer">
                     <input
                       type="checkbox"
@@ -355,7 +420,7 @@ export default function ReservationSection() {
                       className="mt-0.5 h-4 w-4 rounded border-[var(--glass-border)] accent-[var(--gold)]"
                     />
                     <span className="text-sm text-[var(--text-muted)]">
-                      J'accepte les{" "}
+                      J&apos;accepte les{" "}
                       <Link href="/conditions" className="link-gold underline-offset-2 hover:underline">conditions de réservation</Link>.
                     </span>
                   </label>
@@ -374,7 +439,11 @@ export default function ReservationSection() {
                       disabled={!canSubmit}
                       className="btn-primary rounded-full px-8 py-3 text-sm font-semibold disabled:cursor-not-allowed disabled:opacity-40"
                     >
-                      {isSubmitting ? "Redirection vers le paiement..." : `Payer l'acompte de ${depositAmount} €`}
+                      {isSubmitting
+                        ? "Redirection vers le paiement..."
+                        : paymentMode === "total"
+                        ? `Payer ${amountToPay} € (rabais -10%)`
+                        : `Payer l'acompte de ${amountToPay} €`}
                     </button>
                   </div>
                 </div>
@@ -393,26 +462,52 @@ export default function ReservationSection() {
                       </span>
                       <span className="text-sm font-semibold">{selectedPricing?.title}</span>
                     </div>
-                    <span className="text-sm font-bold text-white">{totalPrice} €</span>
+                    <span className="text-sm font-bold text-white">{basePrice} €</span>
                   </div>
                   <div className="space-y-1 text-xs text-[var(--text-muted)]">
                     <div className="flex justify-between"><span>Formule</span><span>{selectedFormuleLabel}</span></div>
                     <div className="flex justify-between"><span>Chauffeur</span><span>{form.chauffeur === "avec" ? "Oui" : "Non"}</span></div>
                     <div className="flex justify-between"><span>Date</span><span>{summaryDate}</span></div>
+                    <div className="flex justify-between"><span>Paiement</span><span>{paymentMode === "total" ? "Total" : "Acompte 10%"}</span></div>
                   </div>
                 </div>
                 <div className="my-4 accent-line" />
-                <div className="flex items-end justify-between">
-                  <div>
-                    <p className="text-xs text-[var(--text-muted)]">Acompte (10%)</p>
-                    <p className="text-2xl font-extrabold text-[var(--gold)]">{depositAmount} €</p>
-                  </div>
-                  <p className="text-xs text-[var(--text-muted)]">sur {totalPrice} €</p>
-                </div>
-                <p className="mt-3 text-[11px] text-[var(--text-muted)]">
-                  Le solde de {totalPrice - depositAmount} € est à régler le jour de la prestation.{" "}
-                  <Link href="/conditions" className="link-gold underline-offset-2 hover:underline">Conditions</Link>
-                </p>
+
+                {paymentMode === "total" ? (
+                  <>
+                    <div className="flex items-center gap-2 rounded-lg bg-green-500/10 border border-green-500/20 px-3 py-2 mb-3">
+                      <svg className="h-4 w-4 text-green-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                      </svg>
+                      <span className="text-xs font-semibold text-green-400">Rabais de {fullPaymentDiscount} € appliqué</span>
+                    </div>
+                    <div className="flex items-end justify-between">
+                      <div>
+                        <p className="text-xs text-[var(--text-muted)]">Total à payer</p>
+                        <p className="text-2xl font-extrabold text-[var(--gold)]">{totalPrice} €</p>
+                      </div>
+                      <p className="text-xs text-[var(--text-muted)] line-through">{basePrice} €</p>
+                    </div>
+                    <p className="mt-3 text-[11px] text-[var(--text-muted)]">
+                      Paiement unique. Rien à régler le jour J.{" "}
+                      <Link href="/conditions" className="link-gold underline-offset-2 hover:underline">Conditions</Link>
+                    </p>
+                  </>
+                ) : (
+                  <>
+                    <div className="flex items-end justify-between">
+                      <div>
+                        <p className="text-xs text-[var(--text-muted)]">Acompte (10%)</p>
+                        <p className="text-2xl font-extrabold text-[var(--gold)]">{depositAmount} €</p>
+                      </div>
+                      <p className="text-xs text-[var(--text-muted)]">sur {totalPrice} €</p>
+                    </div>
+                    <p className="mt-3 text-[11px] text-[var(--text-muted)]">
+                      Le solde de {remainingBalance} € est à régler le jour de la prestation.{" "}
+                      <Link href="/conditions" className="link-gold underline-offset-2 hover:underline">Conditions</Link>
+                    </p>
+                  </>
+                )}
               </div>
             </aside>
           </div>
