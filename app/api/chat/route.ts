@@ -71,7 +71,6 @@ export async function POST(request: Request) {
           ...messages.slice(-10),
         ],
         max_completion_tokens: 300,
-        temperature: 0.7,
       }),
     });
 
