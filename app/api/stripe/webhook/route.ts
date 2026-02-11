@@ -1,18 +1,25 @@
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
-
-const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET!;
+function getStripe() {
+  const key = process.env.STRIPE_SECRET_KEY;
+  if (!key) throw new Error("STRIPE_SECRET_KEY is not configured.");
+  return new Stripe(key);
+}
 
 export async function POST(request: Request) {
   const body = await request.text();
   const sig = request.headers.get("stripe-signature");
+  const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
 
-  if (!sig) {
-    return NextResponse.json({ error: "Missing signature" }, { status: 400 });
+  if (!sig || !webhookSecret) {
+    return NextResponse.json(
+      { error: "Missing signature or webhook secret" },
+      { status: 400 },
+    );
   }
 
+  const stripe = getStripe();
   let event: Stripe.Event;
 
   try {
