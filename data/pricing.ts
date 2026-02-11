@@ -3,21 +3,32 @@ export interface PrestationPricing {
   title: string;
   price: number;
   description: string;
+  longDescription?: string;
   includes: string[];
+  extras?: string[];
   iconName: string;
 }
 
 export const prestationPricing: PrestationPricing[] = [
   {
     id: "mariage",
-    title: "Mariage",
+    title: "Pack Mariage – Arrivée Prestige",
     price: 600,
-    description: "Sublimez votre jour J avec un transport d'exception.",
+    description: "Faites de votre arrivée à l'église un moment inoubliable.",
+    longDescription:
+      "Nous vous proposons un service de limousine avec chauffeur pour sublimer le plus beau jour de votre vie. Élégance, raffinement et discrétion pour une entrée remarquée devant vos proches. Basés à Vercel (25530), nous intervenons dans tout le Doubs.",
     includes: [
-      "Décoration du véhicule",
-      "Chauffeur en costume",
-      "Itinéraire personnalisé",
-      "Arrivée et départ cérémonie",
+      "Arrivée des mariés en limousine avec chauffeur",
+      "Décoration extérieure élégante (rubans blancs / option fleurs)",
+      "Boisson de bienvenue à bord (champagne ou softs)",
+      "Temps dédié pour photos devant l'église",
+      "Dépose au lieu de réception",
+    ],
+    extras: [
+      "Panneau \"Just Married\"",
+      "Tour romantique après la cérémonie",
+      "Transport des parents ou témoins",
+      "Mise en scène spéciale pour surprise",
     ],
     iconName: "ring",
   },

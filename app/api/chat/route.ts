@@ -10,7 +10,7 @@ Informations clés :
 - Fondateurs : Miranda / Ackermann
 
 Prestations et tarifs fixes :
-- Mariage : 600 € (décoration véhicule, chauffeur en costume, itinéraire personnalisé)
+- Pack Mariage – Arrivée Prestige : 600 € — Arrivée en limousine avec chauffeur, décoration élégante (rubans blancs / option fleurs), boisson de bienvenue à bord (champagne ou softs), temps photo devant l'église, dépose au lieu de réception. Options : panneau "Just Married", tour romantique, transport parents/témoins, mise en scène surprise. Intervention dans tout le Doubs.
 - EVG / EVJF : 450 € (ambiance musicale, tournée libre, capacité groupe)
 - Anniversaire / Soirée privée : 350 € (transport aller-retour, confort premium)
 - Cérémonies familiales : 500 € (baptême, communion, service personnalisé)
@@ -41,7 +41,8 @@ Ne réponds jamais en anglais. Sois concis (2-4 phrases max par réponse).`;
 
 export async function POST(request: Request) {
   try {
-    const { messages } = await request.json();
+    const body = await request.json();
+    const messages = body?.messages;
 
     if (!messages || !Array.isArray(messages)) {
       return NextResponse.json(
@@ -53,10 +54,18 @@ export async function POST(request: Request) {
     const apiKey = process.env.OPENAI_API_KEY;
     if (!apiKey) {
       return NextResponse.json(
-        { error: "Le service de chat n'est pas encore configuré." },
-        { status: 503 },
+        { reply: "Le service de chat est en cours de configuration. Veuillez réessayer plus tard ou nous contacter directement." },
       );
     }
+
+    const openaiBody = {
+      model: "gpt-5-nano-2025-08-07",
+      messages: [
+        { role: "system", content: SYSTEM_PROMPT },
+        ...messages.slice(-10),
+      ],
+      max_completion_tokens: 300,
+    };
 
     const response = await fetch("https://api.openai.com/v1/chat/completions", {
       method: "POST",
@@ -64,34 +73,35 @@ export async function POST(request: Request) {
         "Content-Type": "application/json",
         Authorization: `Bearer ${apiKey}`,
       },
-      body: JSON.stringify({
-        model: "gpt-5-nano-2025-08-07",
-        messages: [
-          { role: "system", content: SYSTEM_PROMPT },
-          ...messages.slice(-10),
-        ],
-        max_completion_tokens: 300,
-      }),
+      body: JSON.stringify(openaiBody),
     });
 
+    const data = await response.json();
+
     if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}));
-      console.error("OpenAI API error:", response.status, errorData);
-      return NextResponse.json(
-        { error: "Erreur du service de chat." },
-        { status: 502 },
-      );
+      console.error("OpenAI API error:", response.status, JSON.stringify(data));
+      return NextResponse.json({
+        reply: "Je suis temporairement indisponible. N'hésitez pas à nous contacter directement par téléphone.",
+      });
     }
 
-    const data = await response.json();
-    const reply = data.choices?.[0]?.message?.content ?? "Désolé, je n'ai pas pu répondre.";
+    const reply =
+      data?.choices?.[0]?.message?.content
+      ?? data?.choices?.[0]?.text
+      ?? null;
+
+    if (!reply) {
+      console.error("OpenAI unexpected response format:", JSON.stringify(data).slice(0, 500));
+      return NextResponse.json({
+        reply: "Désolé, je n'ai pas pu formuler une réponse. Essayez de reformuler votre question.",
+      });
+    }
 
     return NextResponse.json({ reply });
   } catch (err) {
     console.error("Chat API error:", err);
-    return NextResponse.json(
-      { error: "Erreur interne." },
-      { status: 500 },
-    );
+    return NextResponse.json({
+      reply: "Une erreur technique est survenue. Veuillez réessayer dans un instant.",
+    });
   }
 }

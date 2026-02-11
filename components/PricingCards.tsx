@@ -12,6 +12,7 @@ export default function PricingCards() {
       {prestationPricing.map((item) => {
         const isOpen = selectedId === item.id;
         const deposit = getDepositAmount(item.id);
+        const hasExtras = item.extras && item.extras.length > 0;
         return (
           <div
             key={item.id}
@@ -33,7 +34,7 @@ export default function PricingCards() {
               {item.price} €
             </p>
             <p className="mt-1 text-xs text-[var(--text-muted)]">
-              Acompte : {deposit} € (10%)
+              Acompte : {deposit} € (20%)
             </p>
 
             <p className="mt-3 text-sm text-[var(--text-muted)]">{item.description}</p>
@@ -41,7 +42,7 @@ export default function PricingCards() {
             <div
               className="overflow-hidden transition-[max-height,opacity] duration-500 ease-in-out"
               style={{
-                maxHeight: isOpen ? "400px" : "0px",
+                maxHeight: isOpen ? "800px" : "0px",
                 opacity: isOpen ? 1 : 0,
               }}
             >
@@ -57,6 +58,23 @@ export default function PricingCards() {
                     </li>
                   ))}
                 </ul>
+
+                {hasExtras && (
+                  <div className="mt-3">
+                    <p className="mb-1.5 text-[10px] font-semibold uppercase tracking-wider text-[var(--text-muted)]">Options</p>
+                    <ul className="space-y-1.5">
+                      {item.extras!.map((ext) => (
+                        <li key={ext} className="flex items-center gap-2 text-sm text-[var(--text-muted)]">
+                          <svg className="h-3.5 w-3.5 shrink-0 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
+                          </svg>
+                          {ext}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+
                 <a
                   href="#reservation"
                   className="mt-4 inline-flex rounded-full border border-[var(--gold)]/30 bg-[var(--gold)]/8 px-4 py-2 text-xs font-semibold text-[var(--gold)] transition hover:bg-[var(--gold)]/15"
