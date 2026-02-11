@@ -158,7 +158,7 @@ export default function ReservationSection() {
 
         {/* Progress steps */}
         <div className="mb-8 flex items-center justify-center gap-0" data-reveal="up">
-          {["Prestation", "Informations", "Confirmation"].map((label, i) => {
+          {["Prestation", "Informations", "Paiement"].map((label, i) => {
             const stepNum = i + 1;
             const isActive = step === stepNum;
             const isDone = step > stepNum;
@@ -375,7 +375,7 @@ export default function ReservationSection() {
                             </svg>
                           </span>
                           <div>
-                            <p className="text-sm font-semibold">Acompte 10%</p>
+                            <p className="text-sm font-semibold">Acompte 20%</p>
                             <p className="text-xs text-[var(--text-muted)]">Payez {getDepositAmount(form.prestation)} € maintenant, le solde le jour J</p>
                           </div>
                         </div>
@@ -468,12 +468,21 @@ export default function ReservationSection() {
                     <div className="flex justify-between"><span>Formule</span><span>{selectedFormuleLabel}</span></div>
                     <div className="flex justify-between"><span>Chauffeur</span><span>{form.chauffeur === "avec" ? "Oui" : "Non"}</span></div>
                     <div className="flex justify-between"><span>Date</span><span>{summaryDate}</span></div>
-                    <div className="flex justify-between"><span>Paiement</span><span>{paymentMode === "total" ? "Total" : "Acompte 10%"}</span></div>
                   </div>
                 </div>
                 <div className="my-4 accent-line" />
 
-                {paymentMode === "total" ? (
+                {/* Payment details only shown at step 3 */}
+                {step < 3 ? (
+                  <div className="text-center py-2">
+                    <p className="text-xs text-[var(--text-muted)]">
+                      Le détail du paiement sera affiché à l&apos;étape 3.
+                    </p>
+                    <p className="mt-1 text-[11px] text-[var(--gold)]">
+                      Acompte 20% ou paiement total (-10%)
+                    </p>
+                  </div>
+                ) : paymentMode === "total" ? (
                   <>
                     <div className="flex items-center gap-2 rounded-lg bg-green-500/10 border border-green-500/20 px-3 py-2 mb-3">
                       <svg className="h-4 w-4 text-green-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -497,7 +506,7 @@ export default function ReservationSection() {
                   <>
                     <div className="flex items-end justify-between">
                       <div>
-                        <p className="text-xs text-[var(--text-muted)]">Acompte (10%)</p>
+                        <p className="text-xs text-[var(--text-muted)]">Acompte (20%)</p>
                         <p className="text-2xl font-extrabold text-[var(--gold)]">{depositAmount} €</p>
                       </div>
                       <p className="text-xs text-[var(--text-muted)]">sur {totalPrice} €</p>

@@ -16,7 +16,7 @@ export default function Conditions() {
               Toute réservation n&apos;est confirmée qu&apos;après paiement en ligne. Deux options sont proposées :
             </p>
             <ul className="list-disc pl-5 mt-2 space-y-1">
-              <li><strong className="text-white">Acompte de 10%</strong> du montant de la prestation. Le solde est dû le jour de la prestation ou selon devis.</li>
+              <li><strong className="text-white">Acompte de 20%</strong> du montant de la prestation. Le solde est dû le jour de la prestation ou selon devis.</li>
               <li><strong className="text-white">Paiement total</strong> de la prestation, avec un <strong className="text-green-400">rabais immédiat de 10%</strong> sur le prix affiché.</li>
             </ul>
           </section>

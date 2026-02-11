@@ -130,8 +130,8 @@ export function getPrestationPrice(id: string): number {
   return prestationPricing.find((p) => p.id === id)?.price ?? 500;
 }
 
-/** Calcule l'acompte (10% du prix) */
+/** Calcule l'acompte (20% du prix) */
 export function getDepositAmount(prestationId: string): number {
   const price = getPrestationPrice(prestationId);
-  return Math.round(price * 0.1);
+  return Math.round(price * 0.2);
 }

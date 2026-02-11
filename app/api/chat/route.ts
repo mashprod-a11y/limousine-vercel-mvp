@@ -22,7 +22,7 @@ Accueil premium à bord (inclus dans toutes les prestations) :
 - Champagne et boissons rafraîchissantes incluses selon la formule choisie
 
 Paiement (deux options au choix du client) :
-- Option 1 – Acompte : 10% à la réservation en ligne via Stripe, solde le jour de la prestation
+- Option 1 – Acompte : 20% à la réservation en ligne via Stripe, solde le jour de la prestation
 - Option 2 – Paiement total : le client paie la totalité et bénéficie d'un rabais immédiat de 10% sur le prix de la prestation
 - Annulation > 72h : remboursement intégral
 - Annulation < 72h : acompte/paiement non remboursable
@@ -70,7 +70,7 @@ export async function POST(request: Request) {
           { role: "system", content: SYSTEM_PROMPT },
           ...messages.slice(-10),
         ],
-        max_tokens: 300,
+        max_completion_tokens: 300,
         temperature: 0.7,
       }),
     });

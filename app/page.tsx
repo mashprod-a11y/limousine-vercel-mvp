@@ -39,7 +39,7 @@ export default function Home() {
     {
       question: "Comment fonctionne le paiement ?",
       answer:
-        "Deux options s'offrent à vous : un acompte de 10% maintenant (solde le jour J), ou le paiement total avec un rabais immédiat de 10% sur le prix de la prestation.",
+        "Deux options s'offrent à vous : un acompte de 20% maintenant (solde le jour J), ou le paiement total avec un rabais immédiat de 10% sur le prix de la prestation.",
     },
     {
       question: "Qu'est-ce que le programme de fidélité ?",
@@ -281,7 +281,7 @@ export default function Home() {
         <div className="mb-10" data-reveal="up">
           <h2 className="text-3xl font-extrabold sm:text-4xl">Nos tarifs</h2>
           <p className="mt-2 text-[var(--text-muted)]">
-            Prix fixes par prestation. Acompte de 10% à la réservation, solde le jour J.
+            Prix fixes par prestation. Acompte de 20% à la réservation, solde le jour J.
           </p>
         </div>
         <PricingCards />
