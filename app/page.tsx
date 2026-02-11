@@ -82,8 +82,15 @@ export default function Home() {
       {/* ==================== HEADER ==================== */}
       <header className="sticky top-0 z-50 border-b border-[var(--glass-border)] bg-black/80 backdrop-blur-xl">
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-          <Link href="/" className="text-base font-bold uppercase tracking-widest text-[var(--gold)] sm:text-lg">
-            Vercel Prestige
+          <Link href="/" className="flex items-center">
+            <Image
+              src="/images/logo.png"
+              alt="Vercel Prestige"
+              width={160}
+              height={48}
+              className="h-10 w-auto sm:h-12 object-contain"
+              priority
+            />
           </Link>
 
           <nav className="hidden items-center gap-1 md:flex">
