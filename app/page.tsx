@@ -148,17 +148,16 @@ export default function Home() {
               Vercel-Villedieu-le-Camp
             </span>
 
-            <h1 className="text-balance text-4xl font-extrabold uppercase leading-[1.06] tracking-tight sm:text-5xl md:text-6xl">
-              Vercel
-              <br />
-              <span className="shimmer-text">Prestige</span>
+            <h1 className="text-balance text-4xl font-extrabold leading-[1.06] tracking-tight sm:text-5xl md:text-6xl">
+              <span className="block text-[var(--text-primary)]">Maison</span>
+              <span className="shimmer-text">Vercel Prestige</span>
             </h1>
 
             <p className="mt-4 text-lg font-light italic text-[var(--gold)]">
               {content.tagline}
             </p>
 
-            <p className="mt-4 max-w-lg text-base leading-relaxed text-[var(--text-muted)]">
+            <p className="mt-4 max-w-lg text-justify text-base leading-relaxed text-[var(--text-muted)]">
               Transport en limousine et location de véhicules haut de gamme,
               avec ou sans chauffeur, pour une expérience exclusive et personnalisée.
             </p>
@@ -225,7 +224,7 @@ export default function Home() {
           <div data-reveal="left">
             <p className="text-xs font-semibold uppercase tracking-widest text-[var(--gold)]">Notre histoire</p>
             <h2 className="mt-3 text-3xl font-extrabold sm:text-4xl">Vercel Prestige</h2>
-            <p className="mt-4 text-base leading-relaxed text-[var(--text-muted)]">
+            <p className="mt-4 text-justify text-base leading-relaxed text-[var(--text-muted)]">
               Implantée dans un site stratégique et élégant, Rue du Château,
               en plein c&oelig;ur de la place principale de Vercel, face à l'église Sainte-Agathe,
               Vercel Prestige déploie son savoir-faire dans toute la région,
@@ -257,17 +256,30 @@ export default function Home() {
       {/* ==================== ACCUEIL PREMIUM ==================== */}
       <section className="mx-auto max-w-7xl px-4 pt-14 pb-6 sm:px-6 lg:px-8">
         <div className="surface-card overflow-hidden rounded-2xl" data-reveal="up">
-          <div className="flex flex-col items-center gap-4 px-6 py-10 text-center sm:px-12">
-            <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-[var(--gold)]/15 text-[var(--gold)]">
+          <div className="grid items-center gap-6 px-6 py-10 sm:px-12 lg:grid-cols-[1fr_360px]">
+            <div className="flex flex-col items-center gap-4 text-center lg:items-start lg:text-left">
+              <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-[var(--gold)]/15 text-[var(--gold)]">
               <svg className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.455 2.456L21.75 6l-1.036.259a3.375 3.375 0 00-2.455 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z" />
               </svg>
-            </span>
-            <h2 className="text-2xl font-extrabold sm:text-3xl">Accueil premium à bord</h2>
-            <p className="max-w-xl text-sm leading-relaxed text-[var(--text-muted)] sm:text-base">
-              Dès votre installation, profitez d&apos;un accueil raffiné avec champagne et boissons rafraîchissantes incluses selon la formule choisie.
-              Une attention élégante pour débuter votre moment d&apos;exception.
-            </p>
+              </span>
+              <h2 className="text-2xl font-extrabold sm:text-3xl">Accueil premium à bord</h2>
+              <p className="max-w-xl text-justify text-sm leading-relaxed text-[var(--text-muted)] sm:text-base">
+                Dès votre installation, profitez d&apos;un accueil raffiné avec champagne et boissons rafraîchissantes incluses selon la formule choisie.
+                Une attention élégante pour débuter votre moment d&apos;exception.
+              </p>
+            </div>
+            <div className="relative h-[260px] overflow-hidden rounded-2xl">
+              <Image
+                src="/images/image4.png"
+                alt="Accueil premium limousine"
+                fill
+                sizes="(max-width: 1024px) 100vw, 360px"
+                quality={90}
+                className="object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/45 to-transparent" />
+            </div>
           </div>
         </div>
       </section>
@@ -276,9 +288,24 @@ export default function Home() {
       <section id="offres" className="mx-auto max-w-7xl px-4 pb-8 pt-14 sm:px-6 lg:px-8">
         <div className="mb-10" data-reveal="up">
           <h2 className="text-3xl font-extrabold sm:text-4xl">Nos prestations</h2>
-          <p className="mt-2 text-[var(--text-muted)]">
+          <p className="mt-2 text-justify text-[var(--text-muted)]">
             Sélectionnez une prestation pour découvrir le détail et le tarif.
           </p>
+        </div>
+        <div className="mb-6 surface-card relative h-[220px] overflow-hidden rounded-2xl" data-reveal="scale">
+          <Image
+            src="/images/image5.jpeg"
+            alt="Détails limousine et finition premium"
+            fill
+            sizes="100vw"
+            quality={90}
+            className="object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-black/65 via-black/30 to-transparent" />
+          <div className="absolute left-5 top-5">
+            <p className="text-xs font-semibold uppercase tracking-widest text-[var(--gold)]">Prestations</p>
+            <p className="mt-1 text-lg font-bold text-white">Des expériences pensées dans chaque détail</p>
+          </div>
         </div>
         <InteractiveOffers />
       </section>
@@ -287,9 +314,24 @@ export default function Home() {
       <section id="tarifs" className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
         <div className="mb-10" data-reveal="up">
           <h2 className="text-3xl font-extrabold sm:text-4xl">Nos tarifs</h2>
-          <p className="mt-2 text-[var(--text-muted)]">
+          <p className="mt-2 text-justify text-[var(--text-muted)]">
             Prix fixes par prestation. Acompte de 20% à la réservation, solde le jour J.
           </p>
+        </div>
+        <div className="mb-6 surface-card relative h-[220px] overflow-hidden rounded-2xl" data-reveal="scale">
+          <Image
+            src="/images/image6.jpeg"
+            alt="Limousine Vercel Prestige"
+            fill
+            sizes="100vw"
+            quality={90}
+            className="object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-black/65 via-black/30 to-transparent" />
+          <div className="absolute left-5 top-5">
+            <p className="text-xs font-semibold uppercase tracking-widest text-[var(--gold)]">Tarifs</p>
+            <p className="mt-1 text-lg font-bold text-white">Transparence, élégance, service premium</p>
+          </div>
         </div>
         <PricingCards />
       </section>
@@ -371,6 +413,21 @@ export default function Home() {
           <p className="mx-auto mt-2 max-w-lg text-[var(--text-muted)]">
             Chaque trajet vous rapproche de privilèges exceptionnels.
           </p>
+        </div>
+        <div className="mb-6 surface-card relative h-[250px] overflow-hidden rounded-2xl" data-reveal="scale">
+          <Image
+            src="/images/image7.png"
+            alt="Univers Vercel Prestige"
+            fill
+            sizes="100vw"
+            quality={90}
+            className="object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
+          <div className="absolute bottom-5 left-5">
+            <p className="text-xs font-semibold uppercase tracking-widest text-[var(--gold)]">Avantages clients</p>
+            <p className="mt-1 text-lg font-bold text-white">Chaque trajet récompense votre fidélité</p>
+          </div>
         </div>
         <div className="grid gap-5 sm:grid-cols-3" data-reveal="up">
           {/* Card 1 - Paiement total */}

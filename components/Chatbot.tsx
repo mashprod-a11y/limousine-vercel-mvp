@@ -87,7 +87,7 @@ export default function Chatbot() {
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className="fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-[var(--gold)] text-black shadow-lg shadow-[var(--gold)]/20 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-[var(--gold)]/30"
+        className="fixed bottom-[calc(1rem+env(safe-area-inset-bottom))] right-4 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-[var(--gold)] text-black shadow-lg shadow-[var(--gold)]/20 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-[var(--gold)]/30 sm:right-6"
         aria-label={isOpen ? "Fermer le chat" : "Ouvrir le chat"}
       >
         {isOpen ? (
@@ -103,7 +103,7 @@ export default function Chatbot() {
 
       {/* Chat panel */}
       <div
-        className={`fixed bottom-24 right-6 z-50 w-[360px] max-w-[calc(100vw-2rem)] overflow-hidden rounded-2xl border border-[var(--glass-border)] bg-[#0a0a0a] shadow-2xl transition-all duration-300 ${
+        className={`fixed bottom-[calc(5.5rem+env(safe-area-inset-bottom))] left-3 right-3 z-50 w-auto max-h-[75dvh] overflow-hidden rounded-2xl border border-[var(--glass-border)] bg-[#0a0a0a] shadow-2xl transition-all duration-300 sm:bottom-24 sm:left-auto sm:right-6 sm:w-[360px] ${
           isOpen
             ? "translate-y-0 scale-100 opacity-100"
             : "pointer-events-none translate-y-4 scale-95 opacity-0"
@@ -124,7 +124,7 @@ export default function Chatbot() {
         </div>
 
         {/* Messages */}
-        <div className="flex h-[340px] flex-col gap-3 overflow-y-auto p-4 scrollbar-thin">
+        <div className="flex h-[44dvh] min-h-[260px] flex-col gap-3 overflow-y-auto p-4 scrollbar-thin sm:h-[340px]">
           {messages.map((msg, idx) => (
             <div
               key={idx}
@@ -154,7 +154,7 @@ export default function Chatbot() {
         </div>
 
         {/* Input */}
-        <div className="border-t border-[var(--glass-border)] bg-black/50 p-3">
+        <div className="border-t border-[var(--glass-border)] bg-black/50 p-3 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
           <div className="flex items-center gap-2">
             <input
               ref={inputRef}
@@ -165,7 +165,7 @@ export default function Chatbot() {
                 if (e.key === "Enter") sendMessage();
               }}
               placeholder="Posez votre question..."
-              className="flex-1 rounded-xl border border-[var(--glass-border)] bg-white/[0.04] px-3.5 py-2.5 text-sm text-white placeholder:text-[var(--text-muted)] focus:border-[var(--gold)] focus:outline-none"
+              className="flex-1 rounded-xl border border-[var(--glass-border)] bg-white/[0.04] px-3.5 py-2.5 text-base text-white placeholder:text-[var(--text-muted)] focus:border-[var(--gold)] focus:outline-none sm:text-sm"
               disabled={isLoading}
             />
             <button

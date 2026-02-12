@@ -6,8 +6,9 @@ import Chatbot from "@/components/Chatbot";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Vercel Prestige – Location Limousine & Véhicules de Prestige",
-  description: "L'art du transport de prestige. Location de limousine et véhicules haut de gamme avec ou sans chauffeur à Vercel-Villedieu-le-Camp.",
+  title: "Vercel Prestige | Maison de transport d'exception dans le Doubs",
+  description:
+    "Vercel Prestige réinvente le transport de luxe à Vercel-Villedieu-le-Camp : limousine avec ou sans chauffeur, prestations événementielles et service signature.",
 };
 
 export default function RootLayout({
