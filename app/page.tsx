@@ -149,7 +149,6 @@ export default function Home() {
             </span>
 
             <h1 className="text-balance text-4xl font-extrabold leading-[1.06] tracking-tight sm:text-5xl md:text-6xl">
-              <span className="block text-[var(--text-primary)]">Maison</span>
               <span className="shimmer-text">Vercel Prestige</span>
             </h1>
 
