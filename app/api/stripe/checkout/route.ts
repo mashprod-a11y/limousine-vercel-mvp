@@ -19,6 +19,8 @@ export async function POST(request: Request) {
       paymentMode,
       formule,
       chauffeur,
+      chauffeurHours,
+      chauffeurExtra,
       fullName,
       email,
       phone,
@@ -54,7 +56,7 @@ export async function POST(request: Request) {
                 : `Acompte – ${prestationLabel}`,
               description: isFullPayment
                 ? `Paiement intégral avec rabais 10% – ${prestationLabel}`
-                : `Acompte 10% sur ${totalPrice} € – ${prestationLabel}`,
+                : `Acompte 20% sur ${totalPrice} € – ${prestationLabel}`,
             },
           },
           quantity: 1,
@@ -68,6 +70,8 @@ export async function POST(request: Request) {
         paymentMode: paymentMode || "acompte",
         formule,
         chauffeur,
+        chauffeurHours: chauffeurHours ? String(chauffeurHours) : "",
+        chauffeurExtra: chauffeurExtra ? String(chauffeurExtra) : "",
         fullName,
         email,
         phone,

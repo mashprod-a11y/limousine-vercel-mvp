@@ -4,7 +4,7 @@ import Link from "next/link";
 import { FormEvent, useMemo, useState } from "react";
 import { content } from "@/data/content";
 import { pickupPoints } from "@/data/pickupPoints";
-import { prestationPricing, entreprisePricing, getDepositAmount } from "@/data/pricing";
+import { prestationPricing, entreprisePricing } from "@/data/pricing";
 import PrestationIcon from "@/components/PrestationIcon";
 
 const allPrestations = [
@@ -18,6 +18,7 @@ type ReservationFormState = {
   prestation: string;
   formule: string;
   chauffeur: "avec" | "sans";
+  chauffeurHours: string;
   dateStart: string;
   heureApprox: string;
   pickupPointId: string;
@@ -40,6 +41,7 @@ const defaultState: ReservationFormState = {
   prestation: "mariage",
   formule: "heure",
   chauffeur: "avec",
+  chauffeurHours: "1",
   dateStart: "",
   heureApprox: "",
   pickupPointId: pickupPoints[0]?.id ?? "",
@@ -58,6 +60,8 @@ function toReadableDate(value: string): string {
   return new Intl.DateTimeFormat("fr-FR", { day: "2-digit", month: "long", year: "numeric" }).format(date);
 }
 
+const CHAUFFEUR_HOURLY_RATE = 50;
+
 export default function ReservationSection() {
   const [form, setForm] = useState<ReservationFormState>(defaultState);
   const [step, setStep] = useState(1);
@@ -71,9 +75,13 @@ export default function ReservationSection() {
   );
 
   const basePrice = selectedPricing?.price ?? 500;
-  const fullPaymentDiscount = Math.round(basePrice * 0.1);
-  const totalPrice = paymentMode === "total" ? basePrice - fullPaymentDiscount : basePrice;
-  const depositAmount = paymentMode === "total" ? totalPrice : getDepositAmount(form.prestation);
+  const chauffeurHours = form.chauffeur === "avec" ? Math.max(1, Number(form.chauffeurHours) || 1) : 0;
+  const chauffeurExtra = chauffeurHours * CHAUFFEUR_HOURLY_RATE;
+  const subtotalPrice = basePrice + chauffeurExtra;
+  const fullPaymentDiscount = Math.round(subtotalPrice * 0.1);
+  const acomptePreview = Math.round(subtotalPrice * 0.2);
+  const totalPrice = paymentMode === "total" ? subtotalPrice - fullPaymentDiscount : subtotalPrice;
+  const depositAmount = paymentMode === "total" ? totalPrice : Math.round(totalPrice * 0.2);
   const amountToPay = paymentMode === "total" ? totalPrice : depositAmount;
   const remainingBalance = paymentMode === "total" ? 0 : totalPrice - depositAmount;
 
@@ -108,6 +116,9 @@ export default function ReservationSection() {
     if (!form.email.trim()) return "L'email est obligatoire.";
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim())) return "Veuillez saisir un email valide.";
     if (!form.dateStart) return "La date est obligatoire.";
+    if (form.chauffeur === "avec" && (!form.chauffeurHours || Number(form.chauffeurHours) < 1)) {
+      return "Veuillez indiquer le nombre d'heures chauffeur (minimum 1h).";
+    }
     if (!form.acceptConditions) return "Vous devez accepter les conditions.";
     return null;
   };
@@ -125,6 +136,8 @@ export default function ReservationSection() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           ...form,
+          chauffeurHours,
+          chauffeurExtra,
           totalPrice,
           depositAmount: amountToPay,
           paymentMode,
@@ -257,6 +270,23 @@ export default function ReservationSection() {
                     </div>
                   </div>
 
+                  {form.chauffeur === "avec" && (
+                    <div className="space-y-1.5">
+                      <label className="text-xs font-medium text-[var(--text-muted)]">Heures chauffeur</label>
+                      <div className="flex items-center gap-2">
+                        <input
+                          type="number"
+                          min={1}
+                          max={24}
+                          value={form.chauffeurHours}
+                          onChange={(e) => setValue("chauffeurHours", e.target.value)}
+                          className="input-field max-w-[180px]"
+                        />
+                        <span className="text-xs font-semibold text-[var(--gold)]">50 € / heure</span>
+                      </div>
+                    </div>
+                  )}
+
                   <div className="grid gap-4 sm:grid-cols-2">
                     <div className="space-y-1.5">
                       <label className="text-xs font-medium text-[var(--text-muted)]">Date</label>
@@ -341,7 +371,17 @@ export default function ReservationSection() {
                     {[
                       { label: "Prestation", value: selectedPricing?.title },
                       { label: "Formule", value: selectedFormuleLabel },
-                      { label: "Chauffeur", value: form.chauffeur === "avec" ? "Avec chauffeur" : "Sans chauffeur" },
+                      {
+                        label: "Chauffeur",
+                        value:
+                          form.chauffeur === "avec"
+                            ? `Avec chauffeur (${chauffeurHours}h)`
+                            : "Sans chauffeur",
+                      },
+                      {
+                        label: "Supplément chauffeur",
+                        value: form.chauffeur === "avec" ? `+${chauffeurExtra} €` : "0 €",
+                      },
                       { label: "Date", value: summaryDate },
                       { label: "Heure", value: form.heureApprox || "Non précisée" },
                       { label: "Point RDV", value: selectedPickup?.name },
@@ -376,7 +416,7 @@ export default function ReservationSection() {
                           </span>
                           <div>
                             <p className="text-sm font-semibold">Acompte 20%</p>
-                            <p className="text-xs text-[var(--text-muted)]">Payez {getDepositAmount(form.prestation)} € maintenant, le solde le jour J</p>
+                            <p className="text-xs text-[var(--text-muted)]">Payez {acomptePreview} € maintenant, le solde le jour J</p>
                           </div>
                         </div>
                       </button>
@@ -403,8 +443,8 @@ export default function ReservationSection() {
                           <div>
                             <p className="text-sm font-semibold">Paiement total</p>
                             <p className="text-xs text-[var(--text-muted)]">
-                              <span className="line-through opacity-60">{basePrice} €</span>{" "}
-                              <span className="font-bold text-green-400">{basePrice - fullPaymentDiscount} €</span>
+                              <span className="line-through opacity-60">{subtotalPrice} €</span>{" "}
+                              <span className="font-bold text-green-400">{subtotalPrice - fullPaymentDiscount} €</span>
                             </p>
                           </div>
                         </div>
@@ -462,11 +502,17 @@ export default function ReservationSection() {
                       </span>
                       <span className="text-sm font-semibold">{selectedPricing?.title}</span>
                     </div>
-                    <span className="text-sm font-bold text-white">{basePrice} €</span>
+                    <span className="text-sm font-bold text-white">{subtotalPrice} €</span>
                   </div>
                   <div className="space-y-1 text-xs text-[var(--text-muted)]">
                     <div className="flex justify-between"><span>Formule</span><span>{selectedFormuleLabel}</span></div>
                     <div className="flex justify-between"><span>Chauffeur</span><span>{form.chauffeur === "avec" ? "Oui" : "Non"}</span></div>
+                    {form.chauffeur === "avec" && (
+                      <>
+                        <div className="flex justify-between"><span>Heures chauffeur</span><span>{chauffeurHours} h</span></div>
+                        <div className="flex justify-between"><span>Supplément chauffeur</span><span>+{chauffeurExtra} €</span></div>
+                      </>
+                    )}
                     <div className="flex justify-between"><span>Date</span><span>{summaryDate}</span></div>
                   </div>
                 </div>
@@ -495,7 +541,7 @@ export default function ReservationSection() {
                         <p className="text-xs text-[var(--text-muted)]">Total à payer</p>
                         <p className="text-2xl font-extrabold text-[var(--gold)]">{totalPrice} €</p>
                       </div>
-                      <p className="text-xs text-[var(--text-muted)] line-through">{basePrice} €</p>
+                      <p className="text-xs text-[var(--text-muted)] line-through">{subtotalPrice} €</p>
                     </div>
                     <p className="mt-3 text-[11px] text-[var(--text-muted)]">
                       Paiement unique. Rien à régler le jour J.{" "}

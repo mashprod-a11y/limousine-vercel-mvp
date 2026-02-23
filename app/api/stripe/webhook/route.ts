@@ -113,6 +113,8 @@ export async function POST(request: Request) {
                   <li><strong>Heure :</strong> ${meta.heureApprox || "Non précisée"}</li>
                   <li><strong>Formule :</strong> ${meta.formule}</li>
                   <li><strong>Chauffeur :</strong> ${meta.chauffeur}</li>
+                  <li><strong>Heures chauffeur :</strong> ${meta.chauffeurHours || "0"}</li>
+                  <li><strong>Supplément chauffeur :</strong> ${meta.chauffeurExtra || "0"} €</li>
                   <li><strong>Point RDV :</strong> ${meta.pickupPointId}</li>
                   <li><strong>Passagers :</strong> ${meta.passengers || "Non précisé"}</li>
                   <li><strong>Notes :</strong> ${meta.notes || "Aucune"}</li>
