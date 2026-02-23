@@ -29,12 +29,12 @@ Si une info manque, propose de contacter l'équipe par téléphone ou WhatsApp.`
 
 type ChatMessage = { role: "user" | "assistant" | "system"; content: string };
 
-async function askOpenAI(
+async function askOpenAIResponses(
   apiKey: string,
   messages: ChatMessage[],
-  maxCompletionTokens: number,
+  maxOutputTokens: number,
 ) {
-  const response = await fetch("https://api.openai.com/v1/chat/completions", {
+  const response = await fetch("https://api.openai.com/v1/responses", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -42,13 +42,36 @@ async function askOpenAI(
     },
     body: JSON.stringify({
       model: "gpt-5-nano-2025-08-07",
-      messages,
-      max_completion_tokens: maxCompletionTokens,
+      input: messages,
+      max_output_tokens: maxOutputTokens,
     }),
   });
 
   const data = await response.json();
   return { response, data };
+}
+
+function extractResponseText(data: unknown): string {
+  const payload = data as {
+    output_text?: string;
+    output?: Array<{
+      type?: string;
+      content?: Array<{ type?: string; text?: string }>;
+    }>;
+  };
+
+  if (payload?.output_text && payload.output_text.trim()) {
+    return payload.output_text.trim();
+  }
+
+  const textParts =
+    payload?.output
+      ?.flatMap((item) => item.content ?? [])
+      .filter((c) => c.type === "output_text" || c.type === "text")
+      .map((c) => c.text ?? "")
+      .filter(Boolean) ?? [];
+
+  return textParts.join("\n").trim();
 }
 
 export async function POST(request: Request) {
@@ -75,7 +98,7 @@ export async function POST(request: Request) {
       ...messages.slice(-6),
     ];
 
-    const { response, data } = await askOpenAI(apiKey, baseMessages, 600);
+    const { response, data } = await askOpenAIResponses(apiKey, baseMessages, 700);
 
     if (!response.ok) {
       console.error("OpenAI API error:", response.status, JSON.stringify(data));
@@ -84,22 +107,20 @@ export async function POST(request: Request) {
       });
     }
 
-    let reply =
-      data?.choices?.[0]?.message?.content
-      ?? data?.choices?.[0]?.text
-      ?? "";
+    let reply = extractResponseText(data);
 
-    // gpt-5-nano can sometimes stop with finish_reason=length and empty content.
+    // gpt-5-nano can sometimes stop by length with empty visible content.
     if (!reply || !String(reply).trim()) {
       const retryMessages: ChatMessage[] = [
         ...baseMessages,
         { role: "system", content: "Réponds maintenant en 2 phrases maximum, sans préambule." },
       ];
-      const retry = await askOpenAI(apiKey, retryMessages, 900);
-      reply =
-        retry.data?.choices?.[0]?.message?.content
-        ?? retry.data?.choices?.[0]?.text
-        ?? "";
+      const retry = await askOpenAIResponses(apiKey, retryMessages, 1200);
+      reply = extractResponseText(retry.data);
+
+      if (!reply || !String(reply).trim()) {
+        console.error("OpenAI empty output after retry:", JSON.stringify(retry.data).slice(0, 500));
+      }
     }
 
     if (!reply || !String(reply).trim()) {
