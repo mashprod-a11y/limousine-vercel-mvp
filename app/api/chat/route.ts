@@ -1,43 +1,55 @@
 import { NextResponse } from "next/server";
 
-const SYSTEM_PROMPT = `Tu es l'assistant virtuel de Vercel Prestige, un service de location de limousine et véhicules de prestige situé à Vercel-Villedieu-le-Camp (Doubs, France).
+const SYSTEM_PROMPT = `Tu es l'assistant Vercel Prestige. Réponds toujours en français, ton premium, clair et concis (2 à 4 phrases max).
 
-Ton rôle : répondre aux questions des visiteurs de manière courtoise, professionnelle et concise. Tu parles toujours en français.
+Infos clés:
+- Zone: Vercel-Villedieu-le-Camp et Doubs
+- Fondateurs: Miranda / Ackermann
+- Accueil premium à bord: champagne/boissons selon formule
 
-Informations clés :
-- Siège : Rue du Château, face à l'église Sainte-Agathe, Vercel-Villedieu-le-Camp
-- Implantations partenaires : Le Château – Café Vercel (12 Rue de la Fontaine), Le Rituel Lounge Bar Vercel (6 Rue de Lanchy), Le Rituel Bar & Music Valdahon (8 Rue de la Gare)
-- Fondateurs : Miranda / Ackermann
+Tarifs:
+- Mariage 600€
+- EVG/EVJF 450€
+- Anniversaire/Soirée privée 350€
+- Cérémonies familiales 500€
+- Forfait soirée VIP 3-4h 800€
+- Sur mesure dès 500€
+- Entreprises dès 500€
 
-Prestations et tarifs fixes :
-- Pack Mariage – Arrivée Prestige : 600 € — Arrivée en limousine avec chauffeur, décoration élégante (rubans blancs / option fleurs), boisson de bienvenue (champagne ou softs), temps photo devant l'église, dépose au lieu de réception. Options : panneau "Just Married", tour romantique, transport parents/témoins, mise en scène surprise. Intervention dans tout le Doubs.
-- EVG / EVJF : 450 € — Limousine avec chauffeur, boissons incluses, ambiance festive à bord, arrêt photos souvenir, dépose centre-ville/restaurant/soirée. Un enterrement de vie, ça se fête en grand.
-- Anniversaire / Soirée privée : 350 € — Aller-retour limousine avec chauffeur, ambiance lumineuse et musicale, boisson de bienvenue, confort premium, arrêt photo, horaires flexibles. Parfait pour anniversaire, soirée entre amis, surprise.
-- Cérémonies familiales : 500 € — Baptême, communion. Limousine avec chauffeur professionnel, ponctualité garantie, capacité famille, service discret, décoration possible, temps photos.
-- Forfait Soirée VIP 3 à 4h : 800 € — Mise à disposition exclusive avec chauffeur dédié. Itinéraire flexible, ambiance sonore, confort premium, arrêts photos. Parfait pour soirée d'exception, groupe d'amis, événement pro.
-- Expérience Sur Mesure : à partir de 500 € — Devis adapté, itinéraire à la carte, durée flexible, options personnalisables (boissons, décoration, surprise, arrêts spécifiques), contact dédié. Pour les moments qui ne rentrent pas dans un simple forfait.
-- Offre Entreprises : à partir de 500 € — Événements corporate, soirées VIP, séminaires, team building. Chauffeur en costume, flotte adaptée, devis et facturation entreprise, contact dédié, coordination complète.
+Paiement:
+- Acompte 20% ou paiement total avec rabais immédiat -10%
+- Annulation >72h: remboursement intégral
+- Annulation <72h: non remboursable
 
-Accueil premium à bord (inclus dans toutes les prestations) :
-- Champagne et boissons rafraîchissantes incluses selon la formule choisie
+Fidélité:
+- 6e trajet à -50% après 5 réservations
+- 11e trajet offert après 10 réservations
 
-Paiement (deux options au choix du client) :
-- Option 1 – Acompte : 20% à la réservation en ligne via Stripe, solde le jour de la prestation
-- Option 2 – Paiement total : le client paie la totalité et bénéficie d'un rabais immédiat de 10% sur le prix de la prestation
-- Annulation > 72h : remboursement intégral
-- Annulation < 72h : acompte/paiement non remboursable
+Si une info manque, propose de contacter l'équipe par téléphone ou WhatsApp.`;
 
-Programme de fidélité :
-- Après 5 réservations : 50% de réduction sur le 6e trajet
-- Après 10 réservations : le 11e trajet est entièrement offert (gratuit)
-- Ces avantages sont automatiques et cumulables
+type ChatMessage = { role: "user" | "assistant" | "system"; content: string };
 
-Options :
-- Avec chauffeur (recommandé) : service clé en main, chauffeur professionnel
-- Sans chauffeur : permis > 5 ans, âge minimum 25 ans, caution obligatoire
+async function askOpenAI(
+  apiKey: string,
+  messages: ChatMessage[],
+  maxCompletionTokens: number,
+) {
+  const response = await fetch("https://api.openai.com/v1/chat/completions", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${apiKey}`,
+    },
+    body: JSON.stringify({
+      model: "gpt-5-nano-2025-08-07",
+      messages,
+      max_completion_tokens: maxCompletionTokens,
+    }),
+  });
 
-Si on te demande quelque chose que tu ne sais pas, invite poliment le visiteur à contacter l'équipe directement.
-Ne réponds jamais en anglais. Sois concis (2-4 phrases max par réponse).`;
+  const data = await response.json();
+  return { response, data };
+}
 
 export async function POST(request: Request) {
   try {
@@ -58,25 +70,12 @@ export async function POST(request: Request) {
       );
     }
 
-    const openaiBody = {
-      model: "gpt-5-nano-2025-08-07",
-      messages: [
-        { role: "system", content: SYSTEM_PROMPT },
-        ...messages.slice(-10),
-      ],
-      max_completion_tokens: 300,
-    };
+    const baseMessages: ChatMessage[] = [
+      { role: "system", content: SYSTEM_PROMPT },
+      ...messages.slice(-6),
+    ];
 
-    const response = await fetch("https://api.openai.com/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${apiKey}`,
-      },
-      body: JSON.stringify(openaiBody),
-    });
-
-    const data = await response.json();
+    const { response, data } = await askOpenAI(apiKey, baseMessages, 600);
 
     if (!response.ok) {
       console.error("OpenAI API error:", response.status, JSON.stringify(data));
@@ -85,12 +84,25 @@ export async function POST(request: Request) {
       });
     }
 
-    const reply =
+    let reply =
       data?.choices?.[0]?.message?.content
       ?? data?.choices?.[0]?.text
-      ?? null;
+      ?? "";
 
-    if (!reply) {
+    // gpt-5-nano can sometimes stop with finish_reason=length and empty content.
+    if (!reply || !String(reply).trim()) {
+      const retryMessages: ChatMessage[] = [
+        ...baseMessages,
+        { role: "system", content: "Réponds maintenant en 2 phrases maximum, sans préambule." },
+      ];
+      const retry = await askOpenAI(apiKey, retryMessages, 900);
+      reply =
+        retry.data?.choices?.[0]?.message?.content
+        ?? retry.data?.choices?.[0]?.text
+        ?? "";
+    }
+
+    if (!reply || !String(reply).trim()) {
       console.error("OpenAI unexpected response format:", JSON.stringify(data).slice(0, 500));
       return NextResponse.json({
         reply: "Désolé, je n'ai pas pu formuler une réponse. Essayez de reformuler votre question.",
